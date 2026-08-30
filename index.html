@@ -1,71 +1,71 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png">
     <title>中心 - 凌昉事业部 - LEUKEEN</title>
     <style>
         /* ============================================================
-           1. CSS 变量与全局样式
-           ============================================================ */
+               设计令牌（含链接颜色）
+               ============================================================ */
         :root {
-            --base-font: 0.875rem;
-            --large-heading: clamp(2rem, 4.5vw, 3.375rem);
-            --medium-heading: 1.5rem;
-            --sub-heading: 1.25rem;
-            --container-pad: 3.125rem 3.125rem 4.375rem;
-            --error-pad: 0;
-            --shadow-blur: 31px;
-            --shadow-spread: 11px;
-            --shadow-color: #999;
+            --color-bg: #fcfcfc;
+            --color-surface: #ffffff;
+            --color-text: #1e1e1e;
+            --color-muted: #6e6e6e;
+            --color-border: hsl(185.17deg 0.09% 89.82%);
+            --color-footer-bg: #141414;
+            --color-footer-text: #b0b0b0;
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 2.5rem;
+            --max-width: 70rem;
+            --side-gutter: 1.25rem;
+            --radius-lg: 0.75rem;
+            --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
             --link-color: #3366cc;
             --link-visited: #6a60b0;
             --link-hover: #3056a9;
             --link-active: #233566;
             --link-hover-visited: #534fa3;
             --link-active-visited: #353262;
-            --footer-link-color: #999;
-            --menu-active-color: #3366cc;
+
+            --card-bg: #f9f9f9;
+            --card-pad: 3.125rem 3.125rem 4.375rem;
+            --card-max-width: 617px;
+            --shadow-blur: 31px;
+            --shadow-spread: 11px;
+            --shadow-color: #999;
+            --base-font: 0.875rem;
+            --large-heading: clamp(2rem, 4.5vw, 3.375rem);
+            --medium-heading: 1.5rem;
         }
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-        body,
-        div,
-        h3,
-        h4,
-        li,
-        ol,
-        p,
-        ul {
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
         html,
         body {
-            height: 100%;
-            overflow-x: hidden;
+            min-height: 100vh;
+            font-size: 16px;
         }
         body {
-            font: var(--base-font)/1.5 'Microsoft YaHei', '微软雅黑', Helvetica, Sans-serif;
-            background: #f0f1f3;
-            overflow-y: auto;
-            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            flex-direction: column;
         }
-        :focus {
-            outline: 0;
-        }
-        h3,
-        h4,
-        strong {
-            font-weight: 700;
-        }
-        ul {
-            list-style: none;
-        }
+
         a {
             text-decoration: none;
             color: var(--link-color);
@@ -74,380 +74,150 @@
             color: var(--link-color);
         }
         a:visited {
-            color: var(--link-visited);
+            color: var(--link-color);
         }
         a:hover {
-            text-decoration: underline;
             color: var(--link-hover);
         }
         a:active {
-            text-decoration: underline;
             color: var(--link-active);
         }
         a:hover:visited {
-            color: var(--link-hover-visited);
+            color: var(--link-hover);
         }
         a:active:visited {
-            color: var(--link-active-visited);
+            color: var(--link-active);
         }
-        .meta-label {
-            color: #ccc;
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--side-gutter);
         }
-        .error-page {
-            background: #f0f1f3;
-            padding: var(--error-pad);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            pointer-events: none;
-        }
-        .error-page-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 820px;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-            flex: 1;
-            justify-content: space-between;
-        }
-        .card-stack-wrapper {
-            width: 100%;
-            min-height: 50vh;
-            transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: visible;
-            pointer-events: none;
-            position: relative;
-            flex-shrink: 0;
-        }
-        .card-stack {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            pointer-events: auto;
-        }
-        .card-stack>.card-wrapper {
-            position: absolute;
+
+        /* ===== 头部 ===== */
+        .site-header {
+            background: var(--color-surface);
+            padding-block: 1.2em;
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: auto;
-            pointer-events: none;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0s linear 0.3s;
+            z-index: 1002;
         }
-        .card-stack>.card-wrapper.visible {
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0s linear 0s;
-        }
-        .card-stack>.card-wrapper.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .card-wrapper .error-page-main {
-            pointer-events: auto;
-            user-select: text;
-        }
-        .card-wrapper .error-page-main h3 {
-            cursor: default;
-        }
-
-        .error-page-main {
-            position: relative;
-            background: #f9f9f9;
-            margin: 5rem auto 0;
-            width: min(617px, calc(100% - 2rem));
-            box-sizing: border-box;
-            padding: var(--container-pad);
-        }
-        .error-page-main:before {
-            content: '';
-            display: block;
-            height: 0.4375rem;
-            position: absolute;
-            top: -0.4375rem;
-            width: 100%;
-            left: 0;
-        }
-        .error-page-main h3 {
-            font-size: var(--medium-heading);
-            font-weight: 400;
-            border-bottom: 1px solid #d0d0d0;
-        }
-        .error-page-main h3 strong {
-            font-size: var(--large-heading);
-            font-weight: 400;
-            margin-right: 1.25rem;
-            white-space: nowrap;
-        }
-        .error-page-actions {
-            font-size: 0;
-            z-index: 100;
-        }
-        .error-page-actions .actions-content {
-            font-size: var(--base-font);
-            display: inline-block;
-            padding: 1.875rem 0 0 0.625rem;
-            width: 100%;
-            box-sizing: border-box;
-            color: #838383;
-            user-select: text;
-            /* 确保允许换行 */
-            white-space: normal;
-            overflow-wrap: break-word;
-        }
-        .error-page-actions ol {
-            list-style: decimal;
-            padding-left: 1.25rem;
-        }
-        .error-page-actions li {
-            line-height: 2.5em;
-        }
-        .error-page-actions:before,
-        .error-page-actions:after {
-            content: '';
-            display: block;
-            position: absolute;
-            z-index: -1;
-            bottom: 1.0625rem;
-            width: 12.5rem;
-            height: 0.625rem;
-            box-shadow: 0.25rem 0.3125rem var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
-        }
-        .error-page-actions:before {
-            left: 3.125rem;
-            transform: rotate(-4deg);
-        }
-        .error-page-actions:after {
-            right: 3.125rem;
-            transform: rotate(4deg);
-        }
-
-        /* ---- 链接分隔符（圆点） ---- */
-        .link-group {
-            display: inline;
-        }
-        .link-group .dot {
-            color: #ccc;
-            margin: 0 0.3em;
-            user-select: none;
-        }
-
-        /* ---- 打开卡片链接（使用 span，天然内联，自动换行） ---- */
-        .link-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            font: inherit;
-            text-decoration: underline dotted;
-            color: var(--link-color);
-            transition: color 0.2s;
-            /* span 默认 inline，无需额外设置 */
-            display: inline;
-            white-space: normal;
-            word-break: break-all;
-        }
-        .link-btn.active {
-            color: var(--link-visited);
-        }
-        /* 确保点击区域正常 */
-        .link-btn:focus-visible {
-            outline: 2px solid var(--link-color);
-            outline-offset: 2px;
-        }
-
-        /* ---- 品牌菜单项（灰色线仅悬浮时出现） ---- */
-        .menu-item {
+        .header-bar {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
-            font-size: 0.8rem;
-            padding: 0.25rem 0;
-            border-radius: 0;
-            cursor: pointer;
-            transition: background-color 0.2s, box-shadow 0.2s, border-radius 0.2s;
-            box-shadow: none;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: var(--space-md);
         }
-        .menu-item:hover {
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            box-shadow: inset 0 -2px 0 #d0d0d0;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            color: var(--color-text);
         }
-        .menu-item.active {
-            box-shadow: inset 5px 0px 0px -1px var(--menu-active-color);
-        }
-        .menu-item.active:hover {
-            box-shadow: inset 0 -3px 0 -1px var(--menu-active-color);
-            border-radius: 0;
-        }
-
-        .menu-icon {
-            font-size: 0.9rem;
+        .brand-logo-link {
+            display: inline-flex;
+            align-items: center;
             flex-shrink: 0;
-            width: 1.2rem;
-            text-align: center;
-            color: #7f8c8d;
-            margin-left: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        .menu-icon svg {
-            width: 1em;
+        .mw-logo-icon {
+            vertical-align: text-bottom;
+            height: 2.5em;
+            width: 6.3em;
+            object-fit: cover;
+            overflow: visible;
+            flex-shrink: 0;
+            margin-block: -1em;
         }
-        .menu-content {
+        .brand-divider {
+            width: 1px;
+            height: 2em;
+            background: var(--color-border);
+            flex-shrink: 0;
+        }
+        .brand-text {
             display: flex;
             flex-direction: column;
-            line-height: 1.3;
-            min-width: 0;
-        }
-        .menu-title {
-            font-weight: 600;
-            color: #222;
-            font-size: 0.82rem;
-        }
-        .menu-sub {
-            font-size: 0.65rem;
-            color: #999;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* ============================================================
-           品牌区域（默认隐藏，带滑入滑出动画）
-           ============================================================ */
-        .brand-section {
-            width: 100%;
-            max-width: 820px;
-            background: #ffffff;
-            padding: 2rem 2.5rem;
-            pointer-events: auto;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            display: none;
-            gap: 2.5rem;
-            align-items: stretch;
+            line-height: 1.2;
             flex-shrink: 0;
-            margin-bottom: 4rem;
-            position: relative;
-            z-index: 20;
-            overflow: hidden;
-            transform-origin: top center;
-            transition: z-index 0s;
+            margin-block: -1em;
+            text-decoration: none;
+            color: inherit;
         }
-        .brand-section.brand-enter {
-            display: flex;
-            animation: brandSlideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        .brand-name {
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: -0.3px;
+            color: var(--color-text);
         }
-        .brand-section.brand-leave {
-            display: flex;
-            animation: brandSlideOut 0.35s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+        .brand-url {
+            font-size: 0.75rem;
+            color: var(--color-muted);
+            letter-spacing: 0.2px;
+            font-weight: bold;
+            font-family: "Trebuchet MS", Verdana, Tahoma, "Lucida Grande", sans-serif;
         }
-        @keyframes brandSlideIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-28px) scale(0.97);
-                max-height: 0;
-                padding-top: 0;
-                padding-bottom: 0;
-                margin-bottom: 0;
-            }
-            40% {
-                opacity: 0.6;
-                transform: translateY(-8px) scale(0.99);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                max-height: 800px;
-                padding-top: 2rem;
-                padding-bottom: 2rem;
-                margin-bottom: 4rem;
-            }
-        }
-        @keyframes brandSlideOut {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                max-height: 800px;
-                padding-top: 2rem;
-                padding-bottom: 2rem;
-                margin-bottom: 4rem;
-            }
-            60% {
-                opacity: 0.4;
-                transform: translateY(-12px) scale(0.98);
-                max-height: 400px;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-28px) scale(0.95);
-                max-height: 0;
-                padding-top: 0;
-                padding-bottom: 0;
-                margin-bottom: 0;
+        @media (max-width: 560px) {
+            .brand {
+                gap: var(--space-sm);
             }
         }
 
-        .brand-left {
-            flex: 0 0 280px;
-            display: flex;
-            gap: 1.25rem;
-            align-items: flex-start;
-        }
-        .brand-logo {
-            flex: 0 0 80px;
-            width: 80px;
-            height: 80px;
-            background: #2c3e50;
-            border-radius: 4px;
+        .nav-wrapper {
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 2.4rem;
-            font-weight: 700;
-            color: #fff;
-            font-family: 'Times New Roman', serif;
-            user-select: none;
+            gap: var(--space-md);
         }
-        .brand-desc {
-            flex: 1;
-            font-size: 0.8rem;
-            line-height: 1.7;
-            color: #444;
+        .nav-menu {
+            display: flex;
+            position: relative;
+            gap: var(--space-xl);
+            font-size: 0.95rem;
+            color: var(--color-muted);
+            align-items: center;
         }
-        .brand-desc strong {
-            color: #1a1a1a;
+        .nav-menu a {
+            padding: var(--space-xs) 0;
+            border-bottom: 2px solid transparent;
+            color: var(--color-muted);
+            transition: color 0.25s ease;
+            cursor: pointer;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
         }
-        .brand-right {
-            flex: 1;
-            min-width: 0;
+        .nav-menu a:hover {
+            color: var(--color-text);
+            text-decoration: none;
         }
-        .brand-menu {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
-            gap: 0.75rem 1.2rem;
+        .nav-menu a.is-active {
+            color: var(--color-text);
+        }
+        .nav-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            background: var(--color-text);
+            border-radius: 2px;
+            transition: left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            z-index: 0;
+        }
+        @media (max-width: 639px) {
+            .nav-menu {
+                display: none !important;
+            }
         }
 
-        /* ============================================================
-           悬浮菜单按钮（左上角）
-           ============================================================ */
+        /* ---- 菜单按钮 ---- */
         .menu-toggle {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            right: 12px;
             z-index: 9999;
             width: 52px;
             height: 52px;
@@ -461,15 +231,14 @@
             will-change: transform;
             transition: box-shadow 0.3s ease, background 0.3s ease;
             transform: translate(0, 0);
-        }
-        .menu-toggle:hover {
-            box-shadow: 0 6px 28px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
-            background: #fafafa;
+            background: transparent;
+            color: #000000;
+            top: 50%;
+            transform: translateY(-50%) translate(0, 0);
         }
         .menu-toggle:active {
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
         }
-
         .menu-toggle .menu-icon-svg {
             width: 28px;
             height: 28px;
@@ -481,7 +250,6 @@
             stroke-linejoin: round;
             transition: transform 0.05s linear;
         }
-
         .menu-toggle .bar {
             transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
                 opacity 0.25s ease;
@@ -497,31 +265,567 @@
         .menu-toggle.active .bar-bot {
             transform: rotate(-45deg) translateY(-6px);
         }
-        .menu-toggle::after {
+
+        /* 移动端面板 */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s;
+            pointer-events: none;
+        }
+        .mobile-nav-overlay.open {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+            pointer-events: auto;
+        }
+        .mobile-nav-panel {
+            position: fixed;
+            right: 0;
+            width: 280px;
+            max-width: 80%;
+            background: var(--color-surface);
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+            padding: 0 1.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            overflow-y: auto;
+            pointer-events: auto;
+        }
+        .mobile-nav-panel.open {
+            transform: translateX(0);
+        }
+        .mobile-nav-panel a {
+            font-size: 1.1rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--color-border);
+            color: var(--color-text);
+            transition: color 0.2s;
+        }
+        .mobile-nav-panel a:hover {
+            color: var(--link-color);
+        }
+        .mobile-nav-panel a.is-active {
+            font-weight: 600;
+            color: var(--link-color);
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            background: var(--color-surface);
+            padding-top: var(--space-2xl);
+        }
+        .hero-layout {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        .hero-main h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: var(--space-xs);
+            transition: color 0.2s;
+        }
+        .hero-main .sub {
+            font-size: 1.1rem;
+            color: var(--color-muted);
+            margin-bottom: 0;
+        }
+        .hero-main a {
+            color: inherit;
+        }
+
+        /* ---- tabs ---- */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs) var(--space-sm);
+            margin-top: var(--space-lg);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--color-border);
+            position: relative;
+        }
+        .tab {
+            font-size: 0.85rem;
+            color: var(--color-muted);
+            padding: var(--space-xs) var(--space-xs);
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            z-index: 1;
+            transition: color 0.2s;
+        }
+        .tab:hover {
+            color: var(--color-text);
+        }
+        .tab.is-active {
+            color: var(--color-text);
+        }
+
+        /* 双指示器 */
+        .tab-indicator {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            background: var(--color-text);
+            border-radius: 2px;
+            transform-origin: center;
+            transform: scaleX(0);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+            transition: transform 0.35s ease, left 0s, width 0s;
+        }
+        .tab-indicator.active {
+            transform: scaleX(1);
+        }
+        .tab-indicator.retiring {
+            transform: scaleX(0);
+        }
+
+        /* ===== 项目卡片 ===== */
+        .projects {
+            background: var(--color-bg);
+            padding-top: 0;
+            padding-bottom: var(--space-2xl);
+        }
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-xs);
+            padding-block: var(--space-sm);
+        }
+        @media (min-width: 560px) {
+            .project-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (min-width: 920px) {
+            .project-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .project-card {
+            display: block;
+            background: var(--color-surface);
+            padding: var(--space-lg) var(--space-lg) var(--space-md);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--color-text);
+            transition: background 0.2s, opacity 0.3s, transform 0.3s;
+            border: none;
+            text-align: left;
+            width: 100%;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            position: relative;
+        }
+        .project-card:hover {
+            background: #f0f1f2;
+        }
+        .project-card:link,
+        .project-card:visited,
+        .project-card:hover,
+        .project-card:active {
+            color: var(--color-text);
+        }
+        .project-card.hidden-project {
             display: none;
         }
 
-        /* ============================================================
-           页脚
-           ============================================================ */
-        .footer {
+        .project-card .tag {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #aaa;
+            font-weight: 600;
+        }
+        .project-card .name {
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            margin-top: var(--space-xs);
+        }
+        .project-card .desc {
+            font-size: 0.9rem;
+            color: var(--color-muted);
+            margin-top: var(--space-xs);
+            margin-bottom: 0;
+        }
+
+        /* ----- 加减号图标（纯CSS） ----- */
+        .card-toggle {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            width: 10px;
+            height: 10px;
+            cursor: default;
+            user-select: none;
+            z-index: 2;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .toggle-line {
+            position: absolute;
+            background: #bbb;
+            border-radius: 1px;
+            transition: background 0.2s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .toggle-h {
+            width: 10px;
+            height: 1px;
+            /* 更细 */
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+
+        .toggle-v {
+            width: 1px;
+            /* 更细 */
+            height: 10px;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 激活（卡片打开）状态：整体旋转90°，竖线收缩为0 → 只剩横线（减号） */
+        .card-toggle.active {
+            transform: rotate(90deg);
+        }
+        .card-toggle.active .toggle-h {
+            transform: translateX(-50%) scaleY(0);
+            background: #333;
+        }
+        .card-toggle.active .toggle-v {
+            background: #333;
+        }
+
+        /* ===== 页脚 ===== */
+        .site-footer {
+            background: var(--color-footer-bg);
+            color: var(--color-footer-text);
+            padding-top: var(--space-2xl);
+            margin-top: auto;
+        }
+        .footer-grid {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+        }
+        .footer-brand-block {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        .footer-brand-block .brand-big {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: #fff;
+        }
+        .footer-brand-block p {
+            font-size: 0.9rem;
+            color: var(--color-footer-text);
+            max-width: 260px;
+        }
+        .footer-brand-block a {
+            color: #6da0ff;
+        }
+        .footer-brand-block a:hover {
+            color: #6094fc;
+        }
+        .footer-brand-block a:active {
+            color: #7aacff;
+        }
+
+        .footer-links-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg) var(--space-2xl);
+        }
+        .footer-col h4 {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #888;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+        .footer-col a {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--color-footer-text);
+            padding: var(--space-xs) 0;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+        .footer-col a:hover {
+            color: #fff;
+        }
+        .footer-col a:visited {
+            color: var(--color-footer-text);
+        }
+        .footer-col a:hover:visited {
+            color: #fff;
+        }
+        @media (min-width: 640px) {
+            .footer-grid {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .footer-brand-block {
+                flex: 0 0 28%;
+            }
+            .footer-links-grid {
+                flex: 1;
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-lg);
+            }
+        }
+        @media (min-width: 900px) {
+            .footer-links-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        .footer-copy {
+            margin-top: var(--space-2xl);
+            padding-block: 0.625rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.75rem;
+            color: var(--color-footer-text);
+            text-align: center;
+        }
+        .footer-copy a {
+            color: var(--color-footer-text);
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+        .footer-copy a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        .footer-copy a:visited {
+            color: var(--color-footer-text);
+        }
+        .footer-copy a:hover:visited {
+            color: #fff;
+        }
+        /* 页脚高亮（使用 transition 更平滑） */
+        .site-footer {
+            transition: background-color 0.4s ease;
+        }
+        .site-footer.highlight {
+            background-color: #303030 !important;
+        }
+
+        /* ===== 卡片弹窗 ===== */
+        .card-overlay {
             position: fixed;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
-            text-align: center;
-            font-size: 0.75rem;
-            padding: 0.625rem 0;
-            background: transparent;
-            z-index: 0;
-            user-select: none;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-overlay.active {
             pointer-events: auto;
-            color: #999;
         }
-        .footer a {
-            color: var(--footer-link-color);
+
+        .card-stack-wrapper {
+            width: 100%;
+            max-width: var(--card-max-width);
+            margin: 0 auto;
+            position: relative;
+            pointer-events: none;
+            min-height: 0;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .close-btn {
+        .card-stack-wrapper.active {
+            pointer-events: auto;
+        }
+
+        .card-stack {
+            position: relative;
+            width: 100%;
+            pointer-events: none;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-stack.active {
+            pointer-events: auto;
+        }
+
+        .card-stack>.card-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transform: translate(calc(-50% + 0px), calc(-50% + 0px)) scale(0.98);
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s linear 0.3s;
+            transform-origin: center center;
+            will-change: transform, opacity;
+        }
+        .card-stack>.card-wrapper.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(calc(-50% + 0px), calc(-50% + 0px)) scale(1);
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0s linear 0s;
+            pointer-events: auto;
+        }
+        .card-stack>.card-wrapper.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transform: translate(calc(-50% + 0px), calc(-50% + 0px)) scale(0.98);
+            pointer-events: none;
+        }
+
+        .card-wrapper .error-page-main {
+            pointer-events: auto;
+            user-select: text;
+            position: relative;
+            background: var(--card-bg);
+            margin: 0 auto;
+            width: min(var(--card-max-width), calc(100% - 2rem));
+            box-sizing: border-box;
+            padding: var(--card-pad);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.12);
+            border-radius: 0;
+        }
+        .card-wrapper .error-page-main:before {
+            content: '';
+            display: block;
+            height: 0.4375rem;
+            position: absolute;
+            top: -0.4375rem;
+            width: 100%;
+            left: 0;
+        }
+        .card-wrapper .error-page-main h3 {
+            font-size: var(--medium-heading);
+            font-weight: 400;
+            border-bottom: 1px solid #d0d0d0;
+            padding-bottom: 0.25rem;
+        }
+        .card-wrapper .error-page-main h3 strong {
+            font-size: var(--large-heading);
+            font-weight: 400;
+            margin-right: 1.25rem;
+            white-space: nowrap;
+        }
+        .card-wrapper .error-page-actions {
+            font-size: 0;
+            z-index: 100;
+        }
+        .card-wrapper .error-page-actions .actions-content {
+            font-size: var(--base-font);
+            display: inline-block;
+            padding: 1.875rem 0 0 0.625rem;
+            width: 100%;
+            box-sizing: border-box;
+            color: #838383;
+            user-select: text;
+            white-space: normal;
+            overflow-wrap: break-word;
+        }
+        .card-wrapper .error-page-actions ol {
+            list-style: decimal;
+            padding-left: 1.25rem;
+        }
+        .card-wrapper .error-page-actions li {
+            line-height: 2.5em;
+        }
+        .card-wrapper .error-page-actions:before,
+        .card-wrapper .error-page-actions:after {
+            content: '';
+            display: block;
+            position: absolute;
+            z-index: -1;
+            bottom: 1.0625rem;
+            width: 12.5rem;
+            height: 0.625rem;
+            box-shadow: 0.25rem 0.3125rem var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
+        }
+        .card-wrapper .error-page-actions:before {
+            left: 3.125rem;
+            transform: rotate(-4deg);
+        }
+        .card-wrapper .error-page-actions:after {
+            right: 3.125rem;
+            transform: rotate(4deg);
+        }
+
+        .card-wrapper .meta-label {
+            color: #ccc;
+        }
+        .card-wrapper .link-group {
+            display: inline;
+        }
+        .card-wrapper .link-group .dot {
+            color: #ccc;
+            margin: 0 0.3em;
+            user-select: none;
+        }
+        .card-wrapper .link-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            font: inherit;
+            text-decoration: underline dotted;
+            color: var(--link-color);
+            transition: color 0.2s;
+            display: inline;
+            white-space: normal;
+            word-break: break-all;
+        }
+        .card-wrapper .link-btn.active {
+            color: var(--link-visited);
+        }
+        .card-wrapper .link-btn:focus-visible {
+            outline: 2px solid var(--link-color);
+            outline-offset: 2px;
+        }
+        .card-wrapper .close-btn {
             position: absolute;
             top: 1rem;
             right: 1rem;
@@ -536,47 +840,19 @@
             z-index: 10;
             pointer-events: auto;
         }
-        .close-btn:hover {
+        .card-wrapper .close-btn:hover {
             color: #333;
         }
-        .jump-text {
-            font-size: var(--base-font);
-            color: #838383;
-            line-height: 1.8;
-            margin-top: 1.2rem;
+        .card-wrapper .error-page-main a:visited {
+            color: var(--link-visited);
         }
-        .jump-text a#manualLink {
-            color: var(--link-color);
+        .card-wrapper .error-page-main a:hover:visited {
+            color: var(--link-hover-visited);
         }
-        .countdown {
-            font-weight: 700;
-            color: #333;
+        .card-wrapper .error-page-main a:active:visited {
+            color: var(--link-active-visited);
         }
-        .toggle-btn {
-            display: inline-block;
-            margin-top: 0.5rem;
-            color: #999;
-            cursor: pointer;
-            font-size: 0.875rem;
-            transition: color 0.2s;
-            user-select: none;
-            pointer-events: auto;
-        }
-        .toggle-btn:hover {
-            color: #333;
-        }
-        .toggle-btn.disabled {
-            color: #ccc;
-            cursor: default;
-        }
-        .toggle-btn.disabled:hover {
-            color: #ccc;
-        }
-
-        /* ============================================================
-           外部链接图标
-           ============================================================ */
-        a.external::after {
+        .card-wrapper a.external::after {
             content: '';
             display: inline-block;
             width: 0.8em;
@@ -591,865 +867,1001 @@
             margin-inline-start: 0.2em;
             pointer-events: none;
         }
+        .card-wrapper .error-page-main {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .card-wrapper .error-page-main::-webkit-scrollbar {
+            width: 5px;
+        }
+        .card-wrapper .error-page-main::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+        .card-wrapper .error-page-main::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .card-wrapper .error-page-main::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
 
-        /* ============================================================
-           响应式 — 仅调整尺寸，不改变 transform-origin 和平移量
-           ============================================================ */
         @media (max-width: 820px) {
-            .brand-section {
-                flex-direction: column;
-                padding: 1.5rem 1.5rem;
-                gap: 1.5rem;
-                margin-left: 1rem;
-                margin-right: 1rem;
-                width: calc(100% - 2rem);
-                max-width: 820px;
+            .card-wrapper .error-page-main {
+                padding: var(--card-pad);
+                width: min(var(--card-max-width), calc(100% - 2rem));
+                margin: 0 auto;
             }
-            .brand-left {
-                flex: 1 1 auto;
-                align-items: center;
-                text-align: center;
-                gap: 0.8rem;
+            .card-wrapper .error-page-main h3 strong {
+                font-size: clamp(1.8rem, 5vw, 2.8rem);
+                margin-right: 0.8rem;
             }
-            .brand-logo {
-                flex: 0 0 72px;
-                width: 72px;
-                height: 72px;
-                font-size: 2rem;
+            .card-wrapper .error-page-actions:before,
+            .card-wrapper .error-page-actions:after {
+                width: 6rem;
+                bottom: 0.75rem;
             }
-            .brand-desc {
-                font-size: 0.78rem;
+            .card-wrapper .error-page-actions:before {
+                left: 1.5rem;
             }
-            .brand-menu {
-                gap: 0.5rem 1rem;
+            .card-wrapper .error-page-actions:after {
+                right: 1.5rem;
             }
-            .menu-item {
-                font-size: 0.75rem;
-            }
-            @keyframes brandSlideIn {
-                0% {
-                    opacity: 0;
-                    transform: translateY(-20px) scale(0.97);
-                    max-height: 0;
-                    padding-top: 0;
-                    padding-bottom: 0;
-                    margin-bottom: 0;
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                    max-height: 600px;
-                    padding-top: 1.5rem;
-                    padding-bottom: 1.5rem;
-                    margin-bottom: 4rem;
-                }
-            }
-            @keyframes brandSlideOut {
-                0% {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                    max-height: 600px;
-                    padding-top: 1.5rem;
-                    padding-bottom: 1.5rem;
-                    margin-bottom: 4rem;
-                }
-                100% {
-                    opacity: 0;
-                    transform: translateY(-20px) scale(0.95);
-                    max-height: 0;
-                    padding-top: 0;
-                    padding-bottom: 0;
-                    margin-bottom: 0;
-                }
-            }
-            .menu-toggle {
-                top: 14px;
-                left: 14px;
-                width: 46px;
-                height: 46px;
-            }
-            .menu-toggle .menu-icon-svg {
-                width: 24px;
-                height: 24px;
-            }
-            .menu-toggle .bar {
-                transform-origin: 16px 16px;
-            }
-            .menu-toggle.active .bar-top {
-                transform: rotate(45deg) translateY(6px);
-            }
-            .menu-toggle.active .bar-bot {
-                transform: rotate(-45deg) translateY(-6px);
+            .card-wrapper .error-page-actions .actions-content {
+                padding: 1.2rem 0 0 0.4rem;
+                font-size: 0.9rem;
             }
         }
         @media (max-width: 480px) {
-            .card-stack-wrapper {
-                min-height: 40vh;
+            .card-wrapper .error-page-main {
+                padding: var(--card-pad);
+                width: min(var(--card-max-width), calc(100% - 0.75rem));
+                margin: 0 auto;
             }
-            .brand-section {
-                padding: 1rem 0.75rem;
-                margin-left: 0.5rem;
+            .card-wrapper .error-page-main h3 strong {
+                font-size: clamp(1.5rem, 4.5vw, 2.2rem);
                 margin-right: 0.5rem;
-                width: calc(100% - 1rem);
             }
-            .brand-left {
-                flex-direction: row;
-                text-align: left;
-                gap: 0.8rem;
+            .card-wrapper .error-page-actions:before,
+            .card-wrapper .error-page-actions:after {
+                width: 3.5rem;
+                bottom: 0.5rem;
             }
-            .brand-logo {
-                flex: 0 0 56px;
-                width: 56px;
-                height: 56px;
-                font-size: 1.6rem;
+            .card-wrapper .error-page-actions:before {
+                left: 0.8rem;
             }
-            .brand-desc {
-                font-size: 0.7rem;
+            .card-wrapper .error-page-actions:after {
+                right: 0.8rem;
             }
-            .brand-menu {
-                gap: 0.3rem 0.8rem;
+            .card-wrapper .error-page-actions .actions-content {
+                padding: 0.8rem 0 0 0.2rem;
+                font-size: 0.85rem;
             }
-            .menu-item {
-                font-size: 0.7rem;
-                padding: 0.15rem 0;
-            }
+        }
+
+        @media (min-width: 640px) {
             .menu-toggle {
-                top: 10px;
-                left: 10px;
-                width: 40px;
-                height: 40px;
-            }
-            .menu-toggle .menu-icon-svg {
-                width: 20px;
-                height: 20px;
-            }
-            .menu-toggle .bar {
-                transform-origin: 16px 16px;
-            }
-            .menu-toggle.active .bar-top {
-                transform: rotate(45deg) translateY(6px);
-            }
-            .menu-toggle.active .bar-bot {
-                transform: rotate(-45deg) translateY(-6px);
-            }
-            @keyframes brandSlideIn {
-                0% {
-                    opacity: 0;
-                    transform: translateY(-16px) scale(0.97);
-                    max-height: 0;
-                    padding-top: 0;
-                    padding-bottom: 0;
-                    margin-bottom: 0;
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                    max-height: 500px;
-                    padding-top: 1rem;
-                    padding-bottom: 1rem;
-                    margin-bottom: 4rem;
-                }
-            }
-            @keyframes brandSlideOut {
-                0% {
-                    opacity: 1;
-                    transform: translateY(0) scale(1);
-                    max-height: 500px;
-                    padding-top: 1rem;
-                    padding-bottom: 1rem;
-                    margin-bottom: 4rem;
-                }
-                100% {
-                    opacity: 0;
-                    transform: translateY(-16px) scale(0.95);
-                    max-height: 0;
-                    padding-top: 0;
-                    padding-bottom: 0;
-                    margin-bottom: 0;
-                }
+                display: none;
             }
         }
     </style>
 </head>
 <body>
-    <!-- ===== 悬浮菜单按钮（左上角） ===== -->
-    <button id="menuToggle" class="menu-toggle" aria-label="切换菜单">
-        <svg class="menu-icon-svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <line class="bar bar-top" x1="6" y1="10" x2="26" y2="10" />
-            <line class="bar bar-mid" x1="6" y1="16" x2="26" y2="16" />
-            <line class="bar bar-bot" x1="6" y1="22" x2="26" y2="22" />
-        </svg>
-    </button>
-
-    <div class="error-page">
-        <div class="error-page-container">
-            <div class="card-stack-wrapper" id="cardStackWrapper">
-                <div class="card-stack" id="cardStack">
-                    <!-- ===== 欢迎卡片 ===== -->
-                    <div class="card-wrapper visible" id="wrapper-original">
-                        <div id="card-original" class="error-page-main">
-                            <button class="close-btn" id="closeBtn">×</button>
-                            <h3><strong>欢迎访问本站！</strong></h3>
-                            <div class="error-page-actions">
-                                <div class="actions-content">如果您看到本页面，说明该服务正常，您可以使用具体地址开始您的访问之旅。<br>——尚未完稿，请您发稿日再来</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ===== 跳转卡片 ===== -->
-                    <div class="card-wrapper hidden" id="wrapper-new">
-                        <div id="card-new" class="error-page-main">
-                            <button class="close-btn" id="closeNewBtn">×</button>
-                            <h3><strong>即将跳转</strong></h3>
-                            <div class="error-page-actions">
-                                <div class="actions-content jump-text">
-                                    当你关闭所有卡片就会<strong>跳转到官网</strong>，即将跳转到 <a href="https://Leukeen.com" target="_blank">Leukeen.com</a>，<span class="countdown" id="countdownDisplay">3</span> 秒后自动跳转，或 <span class="link-btn" id="manualLink" role="button" tabindex="0">点击此处</span> 手动跳转。<br>
-                                    <br><span class="toggle-btn" id="toggleBtn">取消自动跳转</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ===== GraycraftTeam 卡片 ===== -->
-                    <div class="card-wrapper hidden" id="wrapper-gray">
-                        <div id="card-gray" class="error-page-main">
-                            <button class="close-btn" id="closeGrayBtn">×</button>
-                            <h3><strong>GraycraftTeam</strong></h3>
-                            <div class="error-page-actions">
-                                <div class="actions-content">
-                                    <p>GraycraftTeam是“晽方”品牌系列项目推出的第二个新媒体账号。</p><br>
-                                    <span><span class="meta-label">百科条目：</span><a href="https://wiki.leukeen.com/GraycraftTeam" target="_blank">GraycraftTeam</a>；<span class="meta-label">平台账号：</span><span class="link-group"><a href="https://space.bilibili.com/629016494" target="_blank">哔哩哔哩</a></span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ===== 晽方Cultuer 卡片 ===== -->
-                    <div class="card-wrapper hidden" id="wrapper-cultuer">
-                        <div id="card-cultuer" class="error-page-main">
-                            <button class="close-btn" id="closeCultuerBtn">×</button>
-                            <h3><strong>晽方Cultuer</strong></h3>
-                            <div class="error-page-actions">
-                                <div class="actions-content">
-                                    <p>晽方Cultuer是“晽方”品牌系列项目推出的第一个新媒体账号，同时也是大部分“晽方”项目的总账号。</p><br>
-                                    <span><span class="meta-label">百科条目：</span><a href="https://wiki.leukeen.com/%E6%99%BD%E6%96%B9Culture" target="_blank">晽方Cultuer</a>；<span class="meta-label">平台账号：</span><span class="link-group"><a href="https://space.bilibili.com/476217074" target="_blank">哔哩哔哩</a><span class="dot">•</span><a href="https://v.douyin.com/_Qiu_qcrm3c" target="_blank">抖音</a><span class="dot">•</span><a href="https://www.xiaohongshu.com/user/profile/6789af73000000000a03e9d2" target="_blank">小红书</a><span class="dot">•</span><a href="https://www.youtube.com/@linefern" target="_blank">YouTube</a></span>；<span class="meta-label">社区：</span><span class="link-group"><a href="https://m.bilibili.com/topic-detail?topic_id=1068100&bsource=topic.share" target="_blank">bilibili话题</a><span class="dot">•</span><a href="https://www.lofter.com/tag/%E6%99%BD%E6%96%B9culture" target="_blank">lofter话题</a></span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ===== 晽方手册 Wiki 卡片 ===== -->
-                    <div class="card-wrapper hidden" id="wrapper-wiki">
-                        <div id="card-wiki" class="error-page-main">
-                            <button class="close-btn" id="closeWikiBtn">×</button>
-                            <h3><strong>晽方手册 Wiki</strong></h3>
-                            <div class="error-page-actions">
-                                <div class="actions-content">
-                                    <p>晽方手册 Wiki是晽道求方的百科全书，目标是建立晽方社群涉及之读者所需求的内容丰富、信息共享的公益性质百科网站，推动共建团结互助的读者编者社群，弘扬“晽方文化”品牌理念。晽方手册网站还是刊发<span class="link-btn" data-target="晽方报刊" role="button" tabindex="0">晽方报刊</span>的主要平台。</p><br>
-                                    <span><span class="meta-label">官网链接：</span><span class="link-group"><a href="https://wiki.leukeen.com/" target="_blank">首页</a><span class="dot">•</span><a href="https://wiki.leukeen.com/%E6%99%BD%E6%96%B9%E6%89%8B%E5%86%8C_Wiki:%E7%AB%A0%E7%A8%8B" target="_blank">章程</a></span>；<span class="meta-label">平台账号：</span><span class="link-btn" data-target="晽方Cultuer" role="button" tabindex="0">另见晽方Cultuer</span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ===== 晽方报刊 卡片 ===== -->
-                    <div class="card-wrapper hidden" id="wrapper-paper">
-                        <div id="card-paper" class="error-page-main">
-                            <button class="close-btn" id="closePaperBtn">×</button>
-                            <h3><strong>晽方报刊</strong></h3>
-                            <div class="error-page-actions">
-                                <div class="actions-content">
-                                    <p>晽方报刊是以“晽可驱昧，方可明理”为口号的期刊，负责社区消息通讯，同时刊登征集来的稿件，主要刊发在<span class="link-btn" data-target="晽方手册 Wiki" role="button" tabindex="0">晽方手册 Wiki</span>网站，同时也将文章发布在新媒体平台上。</p><br>
-                                    <span><span class="meta-label">官网链接：</span><a href="https://wiki.leukeen.com/%E6%96%87%E7%AB%A0:%E3%80%8A%E6%99%BD%E6%96%B9%E6%8A%A5%E5%88%8A%E3%80%8B" target="_blank">首页</a>；<span class="meta-label">平台账号：</span><span class="link-btn" data-target="晽方Cultuer" role="button" tabindex="0">另见晽方Cultuer</span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ===== 尽规流光 卡片 ===== -->
-                    <div class="card-wrapper hidden" id="wrapper-flow">
-                        <div id="card-flow" class="error-page-main">
-                            <button class="close-btn" id="closeFlowBtn">×</button>
-                            <h3><strong>尽规流光</strong></h3>
-                            <div class="error-page-actions">
-                                <div class="actions-content">
-                                    <p>尽规流光是以Minecraft实况动画为主要表现手法的视频系列作品，也被看作是“<span class="link-btn" data-target="04宇宙" role="button" tabindex="0">04宇宙</span>”世界观实质内容产出。</p><br>
-                                    <span><span class="meta-label">百科条目：</span><a href="https://wiki.leukeen.com/%E5%B0%BD%E8%A7%84%E6%B5%81%E5%85%89%E7%B3%BB%E5%88%97" target="_blank">尽规流光系列</a>；<span class="meta-label">平台：</span><span class="link-btn" data-target="晽方Cultuer" role="button" tabindex="0">另见晽方Cultuer</span></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ===== 04宇宙 卡片 ===== -->
-                    <div class="card-wrapper hidden" id="wrapper-universe">
-                        <div id="card-universe" class="error-page-main">
-                            <button class="close-btn" id="closeUniverseBtn">×</button>
-                            <h3><strong>04宇宙</strong></h3>
-                            <div class="error-page-actions">
-                                <div class="actions-content">
-                                    <p>04宇宙是<span class="link-btn" data-target="尽规流光" role="button" tabindex="0">尽规流光系列</span>的世界观。04宇宙的运营和内容产出除了尽规流光系列，也有一些虚构账号和虚构网页，以及配合尽规流光的过家家活动。</p><br>
-                                    <span><span class="meta-label">百科条目：</span><a href="https://wiki.leukeen.com/04%E5%AE%87%E5%AE%99" target="_blank">04宇宙</a></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- ===== 头部 ===== -->
+    <header class="site-header" id="siteHeader">
+        <div class="container header-bar">
+            <div class="brand">
+                <a href="https://www.leukeen.com/" class="brand-logo-link" target="_blank" title="福建凌昉文化媒体事业部">
+                    <img src="leukeen.png" class="mw-logo-icon" alt="福建凌昉文化媒体事业部" />
+                </a>
+                <span class="brand-divider"></span>
+                <a href="https://www.4lk.cn/" class="brand-text" target="_blank" title="凌昉中心网">
+                    <span class="brand-name">中心网</span>
+                    <span class="brand-url">www.<span style="color: FireBrick;">4lk</span>.cn</span>
+                </a>
             </div>
+            <div class="nav-wrapper">
+                <nav class="nav-menu" id="mainNav">
+                    <a href="https://www.leukeen.com/" data-nav="home" target="_blank" rel="noopener" title="凌昉事业部官网">官网</a>
+                    <a href="#" data-nav="center" class="is-active" id="navCenterLink">中心</a>
+                    <a href="https://wiki.leukeen.com/" data-nav="blog" target="_blank" rel="noopener" title="晽方手册 Wiki百科">百科</a>
+                    <a href="#" data-nav="about" id="aboutLink">关于</a>
+                    <span class="nav-indicator" id="navIndicator"></span>
+                </nav>
+                <button id="menuToggle" class="menu-toggle" aria-label="切换菜单">
+                    <svg class="menu-icon-svg" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <line class="bar bar-top" x1="6" y1="10" x2="26" y2="10" />
+                        <line class="bar bar-mid" x1="6" y1="16" x2="26" y2="16" />
+                        <line class="bar bar-bot" x1="6" y1="22" x2="26" y2="22" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
 
-            <!-- ===== 品牌区域 ===== -->
-            <div class="brand-section" id="brandSection">
-                <div class="brand-left">
-                    <div class="brand-logo">晽</div>
-                    <div class="brand-desc">“晽方”品牌系列项目由<a href="https://Leukeen.com" target="_blank">凌昉事业部</a>旗下组织运营，同时凌昉事业部也负责一些其他项目。<br><a href="https://ifdian.net/a/islfc" target="_blank">您可以通过捐款或参与晽方手册等方式来援助我们的事业。</a></div>
+    <!-- ===== 移动端菜单 ===== -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-panel" id="mobileNavPanel">
+            <a href="https://www.leukeen.com/" data-nav="home" target="_blank" rel="noopener">官网</a>
+            <a href="#" data-nav="center" class="is-active" id="mobileNavCenterLink">中心</a>
+            <a href="https://wiki.leukeen.com/" data-nav="blog" target="_blank" rel="noopener">百科</a>
+            <a href="#" data-nav="about" id="aboutLinkMobile">关于</a>
+        </div>
+    </div>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+        <div class="container hero-layout">
+            <div class="hero-main">
+                <h1 id="heroTitle">中心</h1>
+                <p class="sub">汇集 <a href="#" id="scrollToFooterLink" title="凌昉事业部">凌昉事业部</a> 旗下所有项目入口</p>
+            </div>
+            <div class="tabs" id="tabsContainer">
+                <span class="tab is-active" data-filter="all">全部</span>
+                <span class="tab" data-filter="media">自媒体</span>
+                <span class="tab" data-filter="knowledge">知识库</span>
+                <span class="tab" data-filter="video">视频</span>
+                <span class="tab" data-filter="community">社区</span>
+                <span class="tab-indicator" id="tabIndicatorOld"></span>
+                <span class="tab-indicator" id="tabIndicatorNew"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 项目卡片（加减号改为纯CSS图标） ===== -->
+    <section class="projects">
+        <div class="container project-grid" id="projectGrid">
+            <!-- 晽方 Cultuer -->
+            <button class="project-card" data-card="cultuer" data-tag="media" type="button">
+                <span class="card-toggle">
+                    <span class="toggle-line toggle-h"></span>
+                    <span class="toggle-line toggle-v"></span>
+                </span>
+                <div class="tag">自媒体</div>
+                <div class="name">晽方 Cultuer</div>
+                <div class="desc">剧情类自媒体账号，独到视角</div>
+            </button>
+            <!-- GraycraftTeam -->
+            <button class="project-card" data-card="gray" data-tag="media" type="button">
+                <span class="card-toggle">
+                    <span class="toggle-line toggle-h"></span>
+                    <span class="toggle-line toggle-v"></span>
+                </span>
+                <div class="tag">自媒体</div>
+                <div class="name">GraycraftTeam</div>
+                <div class="desc">创作团队自媒体，分享另一类剧情</div>
+            </button>
+            <!-- 晽方手册 Wiki -->
+            <button class="project-card" data-card="wiki" data-tag="knowledge" type="button">
+                <span class="card-toggle">
+                    <span class="toggle-line toggle-h"></span>
+                    <span class="toggle-line toggle-v"></span>
+                </span>
+                <div class="tag">知识库</div>
+                <div class="name">晽方手册 Wiki</div>
+                <div class="desc">晽道求方的百科全书，喜欢伪实况</div>
+            </button>
+            <!-- 晽方报刊 -->
+            <button class="project-card" data-card="paper" data-tag="knowledge" type="button">
+                <span class="card-toggle">
+                    <span class="toggle-line toggle-h"></span>
+                    <span class="toggle-line toggle-v"></span>
+                </span>
+                <div class="tag">资讯</div>
+                <div class="name">晽方报刊</div>
+                <div class="desc">社区消息通讯，记录动态与对话</div>
+            </button>
+            <!-- 尽规流光 -->
+            <button class="project-card" data-card="flow" data-tag="video" type="button">
+                <span class="card-toggle">
+                    <span class="toggle-line toggle-h"></span>
+                    <span class="toggle-line toggle-v"></span>
+                </span>
+                <div class="tag">视频</div>
+                <div class="name">尽规流光</div>
+                <div class="desc">视频系列作品，用影像叙事</div>
+            </button>
+            <!-- 04宇宙 -->
+            <button class="project-card" data-card="universe" data-tag="video" type="button">
+                <span class="card-toggle">
+                    <span class="toggle-line toggle-h"></span>
+                    <span class="toggle-line toggle-v"></span>
+                </span>
+                <div class="tag">世界观</div>
+                <div class="name">04 宇宙</div>
+                <div class="desc">尽规流光的世界观设定与背景构筑</div>
+            </button>
+            <!-- QQ 群 -->
+            <button class="project-card" data-card="qqgroup" data-tag="community" type="button">
+                <span class="card-toggle">
+                    <span class="toggle-line toggle-h"></span>
+                    <span class="toggle-line toggle-v"></span>
+                </span>
+                <div class="tag">社区</div>
+                <div class="name">QQ 群</div>
+                <div class="desc">加入相关QQ交流群</div>
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== 卡片弹窗 ===== -->
+    <div class="card-overlay" id="cardOverlay">
+        <div class="card-stack-wrapper" id="cardStackWrapper">
+            <div class="card-stack" id="cardStack">
+                <!-- 晽方Cultuer -->
+                <div class="card-wrapper hidden" id="wrapper-cultuer">
+                    <div class="error-page-main">
+                        <button class="close-btn" data-close="cultuer">×</button>
+                        <h3><strong>晽方Cultuer</strong></h3>
+                        <div class="error-page-actions">
+                            <div class="actions-content">
+                                <p>晽方Cultuer是“晽方”品牌系列项目推出的第一个新媒体账号，同时也是大部分“晽方”项目的总账号。</p><br>
+                                <span><span class="meta-label">百科条目：</span><a href="https://wiki.leukeen.com/%E6%99%BD%E6%96%B9Culture" target="_blank">晽方Cultuer</a>；<span class="meta-label">平台账号：</span><span class="link-group"><a href="https://space.bilibili.com/476217074" target="_blank">哔哩哔哩</a><span class="dot">•</span><a href="https://v.douyin.com/_Qiu_qcrm3c" target="_blank">抖音</a><span class="dot">•</span><a href="https://www.xiaohongshu.com/user/profile/6789af73000000000a03e9d2" target="_blank">小红书</a><span class="dot">•</span><a href="https://www.youtube.com/@linefern" target="_blank">YouTube</a></span>；<span class="meta-label">社区：</span><span class="link-group"><a href="https://m.bilibili.com/topic-detail?topic_id=1068100&bsource=topic.share" target="_blank">bilibili话题</a><span class="dot">•</span><a href="https://www.lofter.com/tag/%E6%99%BD%E6%96%B9culture" target="_blank">lofter话题</a></span></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="brand-right">
-                    <ul class="brand-menu">
-                        <li class="menu-item" id="trigger-cultuer"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M96 160L96 400L544 400L544 160L96 160zM32 160C32 124.7 60.7 96 96 96L544 96C579.3 96 608 124.7 608 160L608 400C608 435.3 579.3 464 544 464L96 464C60.7 464 32 435.3 32 400L32 160zM192 512L448 512C465.7 512 480 526.3 480 544C480 561.7 465.7 576 448 576L192 576C174.3 576 160 561.7 160 544C160 526.3 174.3 512 192 512z"></path></svg></span><span class="menu-content"><span class="menu-title">晽方Cultuer</span><span class="menu-sub">自媒体账号</span></span></li>
-                        <li class="menu-item" id="trigger-gray"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M128 128C92.7 128 64 156.7 64 192L64 448C64 483.3 92.7 512 128 512L384 512C419.3 512 448 483.3 448 448L448 192C448 156.7 419.3 128 384 128L128 128zM496 400L569.5 458.8C573.7 462.2 578.9 464 584.3 464C597.4 464 608 453.4 608 440.3L608 199.7C608 186.6 597.4 176 584.3 176C578.9 176 573.7 177.8 569.5 181.2L496 240L496 400z"></path></svg></span><span class="menu-content"><span class="menu-title">GraycraftTeam</span><span class="menu-sub">自媒体账号</span></span></li>
-                        <li class="menu-item" id="trigger-wiki"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M640 115.2L639.7 127.4C611.6 128.2 594.7 143.2 583.9 167.7C558.9 225.5 480.6 407.7 428.6 526.3L415 526.3L333.1 333.2C300.6 396.8 264.8 463.2 233.9 526.3C233.6 526.6 218.9 526.3 218.9 526C172 416.3 122.8 307.4 75.8 197.4C64.4 170.7 26.4 127.4 .2 127.7C.2 124.6-.1 117.7-.1 113.5L161.8 113.5L161.8 127.4C142.6 128.5 109 140.7 118.5 161.6C140.4 211.3 222.1 401.9 244.1 450.2C259.1 420.5 301.9 341 319.4 307.4C305.5 279.1 260.8 173.5 246.6 147.4C236.9 129.6 210.5 128 190.8 127.7L190.8 113.8L333.3 114.1L333.3 127.2C313.9 127.8 295.2 135 303.9 153.3C322.8 193.3 334.5 221.4 352 258C357.6 247.2 386.7 188.6 400.1 157.2C409 136.6 396.2 128.6 361.5 127.8C361.8 124.2 361.5 117.5 361.8 114.2C406.2 113.9 472.9 113.9 484.9 113.6L484.9 127.2C462.4 128 439.1 140 426.8 158.9L367.6 281.7C374 297.8 430.9 424.5 436.8 438.4L559.2 155.8C550.6 132.7 522.8 127.7 512 127.5L512 113.6L639.8 114.7L640 115.2z"></path></svg></span><span class="menu-content"><span class="menu-title">晽方手册 Wiki</span><span class="menu-sub">晽道求方的百科全书</span></span></li>
-                        <li class="menu-item" id="trigger-paper"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M64 480L64 184C64 170.7 74.7 160 88 160C101.3 160 112 170.7 112 184L112 472C112 485.3 122.7 496 136 496C149.3 496 160 485.3 160 472L160 160C160 124.7 188.7 96 224 96L512 96C547.3 96 576 124.7 576 160L576 480C576 515.3 547.3 544 512 544L128 544C92.7 544 64 515.3 64 480zM224 192L224 256C224 273.7 238.3 288 256 288L320 288C337.7 288 352 273.7 352 256L352 192C352 174.3 337.7 160 320 160L256 160C238.3 160 224 174.3 224 192zM248 432C234.7 432 224 442.7 224 456C224 469.3 234.7 480 248 480L488 480C501.3 480 512 469.3 512 456C512 442.7 501.3 432 488 432L248 432zM224 360C224 373.3 234.7 384 248 384L488 384C501.3 384 512 373.3 512 360C512 346.7 501.3 336 488 336L248 336C234.7 336 224 346.7 224 360zM424 240C410.7 240 400 250.7 400 264C400 277.3 410.7 288 424 288L488 288C501.3 288 512 277.3 512 264C512 250.7 501.3 240 488 240L424 240z"></path></svg></span><span class="menu-content"><span class="menu-title">晽方报刊</span><span class="menu-sub">社区消息通讯</span></span></li>
-                        <li class="menu-item" id="trigger-flow"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M96 160C96 124.7 124.7 96 160 96L480 96C515.3 96 544 124.7 544 160L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 160zM144 432L144 464C144 472.8 151.2 480 160 480L192 480C200.8 480 208 472.8 208 464L208 432C208 423.2 200.8 416 192 416L160 416C151.2 416 144 423.2 144 432zM448 416C439.2 416 432 423.2 432 432L432 464C432 472.8 439.2 480 448 480L480 480C488.8 480 496 472.8 496 464L496 432C496 423.2 488.8 416 480 416L448 416zM144 304L144 336C144 344.8 151.2 352 160 352L192 352C200.8 352 208 344.8 208 336L208 304C208 295.2 200.8 288 192 288L160 288C151.2 288 144 295.2 144 304zM448 288C439.2 288 432 295.2 432 304L432 336C432 344.8 439.2 352 448 352L480 352C488.8 352 496 344.8 496 336L496 304C496 295.2 488.8 288 480 288L448 288zM144 176L144 208C144 216.8 151.2 224 160 224L192 224C200.8 224 208 216.8 208 208L208 176C208 167.2 200.8 160 192 160L160 160C151.2 160 144 167.2 144 176zM448 160C439.2 160 432 167.2 432 176L432 208C432 216.8 439.2 224 448 224L480 224C488.8 224 496 216.8 496 208L496 176C496 167.2 488.8 160 480 160L448 160z"></path></svg></span><span class="menu-content"><span class="menu-title">尽规流光</span><span class="menu-sub">视频系列作品</span></span></li>
-                        <li class="menu-item active" id="trigger-universe"><span class="menu-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M119.7 263.7L150.6 294.6C156.6 300.6 164.7 304 173.2 304L194.7 304C203.2 304 211.3 307.4 217.3 313.4L246.6 342.7C252.6 348.7 256 356.8 256 365.3L256 402.8C256 411.3 259.4 419.4 265.4 425.4L278.7 438.7C284.7 444.7 288.1 452.8 288.1 461.3L288.1 480C288.1 497.7 302.4 512 320.1 512C337.8 512 352.1 497.7 352.1 480L352.1 477.3C352.1 468.8 355.5 460.7 361.5 454.7L406.8 409.4C412.8 403.4 416.2 395.3 416.2 386.8L416.2 352.1C416.2 334.4 401.9 320.1 384.2 320.1L301.5 320.1C293 320.1 284.9 316.7 278.9 310.7L262.9 294.7C258.7 290.5 256.3 284.7 256.3 278.7C256.3 266.2 266.4 256.1 278.9 256.1L313.6 256.1C326.1 256.1 336.2 246 336.2 233.5C336.2 227.5 333.8 221.7 329.6 217.5L309.9 197.8C306 194 304 189.1 304 184C304 178.9 306 174 309.7 170.3L327 153C332.8 147.2 336.1 139.3 336.1 131.1C336.1 123.9 333.7 117.4 329.7 112.2C326.5 112.1 323.3 112 320.1 112C224.7 112 144.4 176.2 119.8 263.7zM528 320C528 285.4 519.6 252.8 504.6 224.2C498.2 225.1 491.9 228.1 486.7 233.3L473.3 246.7C467.3 252.7 463.9 260.8 463.9 269.3L463.9 304C463.9 321.7 478.2 336 495.9 336L520 336C522.5 336 525 335.7 527.3 335.2C527.7 330.2 527.8 325.1 527.8 320zM64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320z"></path></svg></span><span class="menu-content"><span class="menu-title">04宇宙</span><span class="menu-sub">尽规流光的世界观</span></span></li>
-                    </ul>
+                <!-- GraycraftTeam -->
+                <div class="card-wrapper hidden" id="wrapper-gray">
+                    <div class="error-page-main">
+                        <button class="close-btn" data-close="gray">×</button>
+                        <h3><strong>GraycraftTeam</strong></h3>
+                        <div class="error-page-actions">
+                            <div class="actions-content">
+                                <p>GraycraftTeam是“晽方”品牌系列项目推出的第二个新媒体账号。</p><br>
+                                <span><span class="meta-label">百科条目：</span><a href="https://wiki.leukeen.com/GraycraftTeam" target="_blank">GraycraftTeam</a>；<span class="meta-label">平台账号：</span><span class="link-group"><a href="https://space.bilibili.com/629016494" target="_blank">哔哩哔哩</a></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 晽方手册 Wiki -->
+                <div class="card-wrapper hidden" id="wrapper-wiki">
+                    <div class="error-page-main">
+                        <button class="close-btn" data-close="wiki">×</button>
+                        <h3><strong>晽方手册 Wiki</strong></h3>
+                        <div class="error-page-actions">
+                            <div class="actions-content">
+                                <p>晽方手册 Wiki是晽道求方的百科全书，目标是建立晽方社群涉及之读者所需求的内容丰富、信息共享的公益性质百科网站，推动共建团结互助的读者编者社群，弘扬“晽方文化”品牌理念。晽方手册网站还是刊发<span class="link-btn" data-card="paper" role="button" tabindex="0">晽方报刊</span>的主要平台。</p><br>
+                                <span><span class="meta-label">官网链接：</span><span class="link-group"><a href="https://wiki.leukeen.com/" target="_blank">首页</a><span class="dot">•</span><a href="https://wiki.leukeen.com/%E6%99%BD%E6%96%B9%E6%89%8B%E5%86%8C_Wiki:%E7%AB%A0%E7%A8%8B" target="_blank">章程</a></span>；<span class="meta-label">平台账号：</span><span class="link-btn" data-card="cultuer" role="button" tabindex="0">另见晽方Cultuer</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 晽方报刊 -->
+                <div class="card-wrapper hidden" id="wrapper-paper">
+                    <div class="error-page-main">
+                        <button class="close-btn" data-close="paper">×</button>
+                        <h3><strong>晽方报刊</strong></h3>
+                        <div class="error-page-actions">
+                            <div class="actions-content">
+                                <p>晽方报刊是以“晽可驱昧，方可明理”为口号的期刊，负责社区消息通讯，同时刊登征集来的稿件，主要刊发在<span class="link-btn" data-card="wiki" role="button" tabindex="0">晽方手册 Wiki</span>网站，同时也将文章发布在新媒体平台上。</p><br>
+                                <span><span class="meta-label">官网链接：</span><a href="https://wiki.leukeen.com/%E6%96%87%E7%AB%A0:%E3%80%8A%E6%99%BD%E6%96%B9%E6%8A%A5%E5%88%8A%E3%80%8B" target="_blank">首页</a>；<span class="meta-label">平台账号：</span><span class="link-btn" data-card="cultuer" role="button" tabindex="0">另见晽方Cultuer</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 尽规流光 -->
+                <div class="card-wrapper hidden" id="wrapper-flow">
+                    <div class="error-page-main">
+                        <button class="close-btn" data-close="flow">×</button>
+                        <h3><strong>尽规流光</strong></h3>
+                        <div class="error-page-actions">
+                            <div class="actions-content">
+                                <p>尽规流光是以Minecraft实况动画为主要表现手法的视频系列作品，也被看作是“<span class="link-btn" data-card="universe" role="button" tabindex="0">04宇宙</span>”世界观实质内容产出。</p><br>
+                                <span><span class="meta-label">百科条目：</span><a href="https://wiki.leukeen.com/%E5%B0%BD%E8%A7%84%E6%B5%81%E5%85%89%E7%B3%BB%E5%88%97" target="_blank">尽规流光系列</a>；<span class="meta-label">平台：</span><span class="link-btn" data-card="cultuer" role="button" tabindex="0">另见晽方Cultuer</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 04宇宙 -->
+                <div class="card-wrapper hidden" id="wrapper-universe">
+                    <div class="error-page-main">
+                        <button class="close-btn" data-close="universe">×</button>
+                        <h3><strong>04宇宙</strong></h3>
+                        <div class="error-page-actions">
+                            <div class="actions-content">
+                                <p>04宇宙是<span class="link-btn" data-card="flow" role="button" tabindex="0">尽规流光系列</span>的世界观。04宇宙的运营和内容产出除了尽规流光系列，也有一些虚构账号和虚构网页，以及配合尽规流光的过家家活动。</p><br>
+                                <span><span class="meta-label">百科条目：</span><a href="https://wiki.leukeen.com/04%E5%AE%87%E5%AE%99" target="_blank">04宇宙</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- QQ 群 -->
+                <div class="card-wrapper hidden" id="wrapper-qqgroup">
+                    <div class="error-page-main">
+                        <button class="close-btn" data-close="qqgroup">×</button>
+                        <h3><strong>QQ 群</strong></h3>
+                        <div class="error-page-actions">
+                            <div class="actions-content">
+                                <p style="margin-bottom:0.8rem;">欢迎加入凌昉事业部旗下项目相关交流群，选择您感兴趣的群加入：</p>
+
+                                <div style="display:flex; flex-direction:column; gap:0.6rem;">
+                                    <!-- 群1 -->
+                                    <div style="border-bottom:1px solid #e0e0e0; padding-bottom:0.6rem;">
+                                        <div><strong>📌 晽方LFC好人联谊会</strong> <span style="color:#888;font-size:0.85rem;">（主群闲聊）</span></div>
+                                        <div style="font-size:0.9rem; color:#666;">群号：<code>1095774626</code></div>
+                                        <div><a href="https://qm.qq.com/q/9Q1BOuzAGI" target="_blank">点击加群</a></div>
+                                    </div>
+
+                                    <!-- 群2 -->
+                                    <div style="border-bottom:1px solid #e0e0e0; padding-bottom:0.6rem;">
+                                        <div><strong>📌 晽方研讨处</strong> <span style="color:#888;font-size:0.85rem;">（项目&剧情讨论）</span></div>
+                                        <div style="font-size:0.9rem; color:#666;">群号：<code>853888132</code></div>
+                                        <div><a href="https://qm.qq.com/q/F0uAnN4efo" target="_blank">点击加群</a></div>
+                                    </div>
+
+                                    <!-- 群3 -->
+                                    <div>
+                                        <div><strong>📌 晽方手册管用群</strong> <span style="color:#888;font-size:0.85rem;">（百科Wiki读者编者）</span></div>
+                                        <div style="font-size:0.9rem; color:#666;">群号：<code>264884975</code></div>
+                                        <div><a href="https://qm.qq.com/q/pTgaYDgs4E" target="_blank">点击加群</a></div>
+                                    </div>
+                                </div>
+
+                                <!-- 二维码（可选） -->
+                                <!-- <div style="margin-top:1rem; border-top:1px solid #e0e0e0; padding-top:0.8rem;">
+                                    <p style="color:#888; font-size:0.85rem;">或扫描二维码加群（主群）：</p>
+                                    <img src="qq-qr.png" alt="QQ群二维码" style="max-width:120px; display:block; margin-top:0.3rem;" />
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <footer class="footer">Copyright © 2016 - <span id="current-year">Present</span> <a href="https://Leukeen.com" target="_blank" rel="noopener noreferrer">Leukeen Inc.</a> All Rights Reserved.</footer>
+
+    <!-- ===== 页脚 ===== -->
+    <footer class="site-footer" id="siteFooter">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand-block">
+                    <div class="brand-big">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+                        </svg>
+                        凌昉Leukeen
+                    </div>
+                    <p>“晽方”品牌系列项目由<a href="https://Leukeen.com" target="_blank">凌昉事业部</a>旗下组织运营，同时凌昉事业部也负责一些其他项目。<br>
+                        <a href="https://ifdian.net/a/islfc" target="_blank">您可以通过捐赠或追随晽方工作等方式来援助我们的事业。</a></p>
+                </div>
+                <div class="footer-links-grid">
+                    <div class="footer-col">
+                        <h4>项目</h4>
+                        <a href="#">晽方 Cultuer</a>
+                        <a href="#">GraycraftTeam</a>
+                        <a href="#">晽方手册 Wiki</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>内容</h4>
+                        <a href="#">晽方报刊</a>
+                        <a href="#">尽规流光</a>
+                        <a href="#">04 宇宙</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>社区</h4>
+                        <a href="#">GitHub</a>
+                        <a href="#">Discord</a>
+                        <a href="#">X</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>关于</h4>
+                        <a href="#">博客</a>
+                        <a href="#">联系</a>
+                        <a href="#">隐私</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copy">
+                Copyright &copy; 2019 - <span id="currentYear"></span> <a href="https://Leukeen.com" target="_blank">Leukeen Inc.</a> All Rights Reserved.
+            </div>
+        </div>
+    </footer>
 
     <script>
         (function() {
-            // 更新年份
-            var yearSpan = document.getElementById('current-year');
+            'use strict';
+
+            // ---- 动态年份 ----
+            var yearSpan = document.getElementById('currentYear');
             if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-            // ----- 外部链接标记 -----
+            // ---- 外部链接标记 ----
             function markExternalLinks() {
                 var links = document.querySelectorAll('a[href]');
-                var internalDomains = ['leukeen.com', '4lk.cn'];
+                var internal = ['leukeen.com', '4lk.cn'];
                 links.forEach(function(link) {
                     var href = link.href;
                     if (!href) return;
                     try {
                         var url = new URL(href, window.location.href);
                         var host = url.hostname.toLowerCase();
-                        var isInternal = internalDomains.some(function(domain) {
-                            return host === domain || host.endsWith('.' + domain);
-                        });
-                        if (!isInternal) {
-                            link.classList.add('external');
-                        }
-                    } catch (e) {}
+                        var isInternal = internal.some(function(d) { return host === d || host.endsWith('.' + d); });
+                        if (!isInternal) link.classList.add('external');
+                    } catch (_) {}
                 });
             }
             markExternalLinks();
 
-            // ----- DOM 引用 -----
-            var closeBtn = document.getElementById('closeBtn');
-            var closeNewBtn = document.getElementById('closeNewBtn');
-            var closeGrayBtn = document.getElementById('closeGrayBtn');
-            var closeCultuerBtn = document.getElementById('closeCultuerBtn');
-            var closeWikiBtn = document.getElementById('closeWikiBtn');
-            var closePaperBtn = document.getElementById('closePaperBtn');
-            var closeFlowBtn = document.getElementById('closeFlowBtn');
-            var closeUniverseBtn = document.getElementById('closeUniverseBtn');
+            // ============================================================
+            //  1. 桌面导航下划线
+            // ============================================================
+            (function initNavIndicator() {
+                var nav = document.getElementById('mainNav');
+                var indicator = document.getElementById('navIndicator');
+                var links = nav.querySelectorAll('a');
+                var activeLink = nav.querySelector('a.is-active') || links[0];
+                var isHovering = false;
+                var hoveredLink = null;
 
-            var wrapperOriginal = document.getElementById('wrapper-original');
-            var wrapperNew = document.getElementById('wrapper-new');
-            var wrapperGray = document.getElementById('wrapper-gray');
-            var wrapperCultuer = document.getElementById('wrapper-cultuer');
-            var wrapperWiki = document.getElementById('wrapper-wiki');
-            var wrapperPaper = document.getElementById('wrapper-paper');
-            var wrapperFlow = document.getElementById('wrapper-flow');
-            var wrapperUniverse = document.getElementById('wrapper-universe');
-
-            var cardStackWrapper = document.getElementById('cardStackWrapper');
-            var cardStack = document.getElementById('cardStack');
-            var countdownSpan = document.getElementById('countdownDisplay');
-            var manualLink = document.getElementById('manualLink');
-            var toggleBtn = document.getElementById('toggleBtn');
-
-            var triggerCultuer = document.getElementById('trigger-cultuer');
-            var triggerGray = document.getElementById('trigger-gray');
-            var triggerWiki = document.getElementById('trigger-wiki');
-            var triggerPaper = document.getElementById('trigger-paper');
-            var triggerFlow = document.getElementById('trigger-flow');
-            var triggerUniverse = document.getElementById('trigger-universe');
-
-            var countdown = 3;
-            var timer = null;
-            var redirectTimer = null;
-            var isCancelled = false;
-
-            // ----- 卡片映射 -----
-            var cardMap = {
-                '晽方Cultuer': wrapperCultuer,
-                'GraycraftTeam': wrapperGray,
-                '晽方手册 Wiki': wrapperWiki,
-                '晽方报刊': wrapperPaper,
-                '尽规流光': wrapperFlow,
-                '04宇宙': wrapperUniverse
-            };
-            var menuMap = {
-                '晽方Cultuer': triggerCultuer,
-                'GraycraftTeam': triggerGray,
-                '晽方手册 Wiki': triggerWiki,
-                '晽方报刊': triggerPaper,
-                '尽规流光': triggerFlow,
-                '04宇宙': triggerUniverse
-            };
-
-            var hiddenStack = [];
-            var zIndexCounter = 10;
-
-            function bringToFront(el) {
-                if (!el) return;
-                el.style.zIndex = ++zIndexCounter;
-            }
-
-            function bringToFrontWrapper(wrapper) {
-                if (!wrapper) return;
-                wrapper.style.zIndex = ++zIndexCounter;
-            }
-
-            function initZIndex() {
-                var wrappers = cardStack.querySelectorAll('.card-wrapper');
-                wrappers.forEach(function(w, i) {
-                    w.style.zIndex = i + 1;
-                });
-                zIndexCounter = wrappers.length + 1;
-                var brand = document.getElementById('brandSection');
-                if (brand) {
-                    brand.style.zIndex = 20;
+                function updateIndicator(targetLink, animate) {
+                    if (!targetLink) return;
+                    var rect = targetLink.getBoundingClientRect();
+                    var navRect = nav.getBoundingClientRect();
+                    var left = rect.left - navRect.left;
+                    var width = rect.width;
+                    if (!animate) indicator.style.transition = 'none';
+                    else indicator.style.transition =
+                        'left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    indicator.style.left = left + 'px';
+                    indicator.style.width = width + 'px';
+                    if (!animate) requestAnimationFrame(function() {
+                        indicator.style.transition =
+                            'left 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    });
                 }
-            }
-            setTimeout(initZIndex, 0);
 
-            function getCardHeight(wrapper) {
-                var main = wrapper.querySelector('.error-page-main');
-                if (!main) return 0;
-                var style = getComputedStyle(main);
-                var marginTop = parseFloat(style.marginTop) || 0;
-                var marginBottom = parseFloat(style.marginBottom) || 0;
-                return main.offsetHeight + marginTop + marginBottom;
-            }
-
-            function updateStackHeight() {
-                var wrappers = cardStack.querySelectorAll('.card-wrapper.visible');
-                var maxH = 0;
-                wrappers.forEach(function(w) {
-                    var h = getCardHeight(w);
-                    if (h > maxH) maxH = h;
-                });
-                cardStackWrapper.style.height = maxH > 0 ? maxH + 'px' : '0px';
-            }
-
-            function getTranslate(el) {
-                var style = getComputedStyle(el);
-                var transform = style.transform;
-                if (transform === 'none') return { x: 0, y: 0 };
-                var matrix = transform.match(/matrix.*\((.+)\)/);
-                if (!matrix) return { x: 0, y: 0 };
-                var values = matrix[1].split(', ').map(Number);
-                if (values.length === 16) return { x: values[12] || 0, y: values[13] || 0 };
-                else if (values.length === 6) return { x: values[4] || 0, y: values[5] || 0 };
-                return { x: 0, y: 0 };
-            }
-
-            function refreshUI() {
-                var btns = cardStack.querySelectorAll('.link-btn');
-                btns.forEach(function(btn) {
-                    var targetName = btn.getAttribute('data-target');
-                    if (!targetName) return;
-                    var targetWrapper = cardMap[targetName];
-                    if (targetWrapper && targetWrapper.classList.contains('visible')) {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
-                    }
-                });
-
-                Object.keys(cardMap).forEach(function(name) {
-                    var wrapper = cardMap[name];
-                    var menuItem = menuMap[name];
-                    if (!menuItem) return;
-                    if (wrapper.classList.contains('visible')) {
-                        menuItem.classList.add('active');
-                    } else {
-                        menuItem.classList.remove('active');
-                    }
-                });
-
-                updateStackHeight();
-            }
-
-            function animateClose(wrapper, callback) {
-                if (wrapper._closing) return;
-                wrapper._closing = true;
-                var pos = getTranslate(wrapper);
-                var tx = pos.x,
-                    ty = pos.y;
-                wrapper.style.transition = '';
-                wrapper.style.opacity = '';
-                wrapper.style.pointerEvents = '';
-                void wrapper.offsetHeight;
-                wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                wrapper.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(0.95)';
-                wrapper.style.opacity = '0';
-                wrapper.style.pointerEvents = 'none';
-
-                var onEnd = function(e) {
-                    if (e.propertyName === 'opacity' || e.propertyName === 'transform') {
-                        wrapper.removeEventListener('transitionend', onEnd);
-                        wrapper.style.transition = '';
-                        wrapper.style.transform = '';
-                        wrapper.style.opacity = '';
-                        wrapper.style.pointerEvents = '';
-                        wrapper._closing = false;
-                        if (callback) callback();
-                        refreshUI();
-                    }
-                };
-                wrapper.addEventListener('transitionend', onEnd);
-                setTimeout(function() {
-                    if (wrapper._closing) {
-                        wrapper.removeEventListener('transitionend', onEnd);
-                        wrapper.style.transition = '';
-                        wrapper.style.transform = '';
-                        wrapper.style.opacity = '';
-                        wrapper.style.pointerEvents = '';
-                        wrapper._closing = false;
-                        if (callback) callback();
-                        refreshUI();
-                    }
-                }, 400);
-            }
-
-            function showCardWithAnimation(wrapper, adjustHeight, preserveTranslate) {
-                var tx = 0,
-                    ty = 0;
-                if (preserveTranslate) {
-                    var pos = getTranslate(wrapper);
-                    tx = pos.x;
-                    ty = pos.y;
+                function setActive(link) {
+                    links.forEach(function(l) { l.classList.remove('is-active'); });
+                    link.classList.add('is-active');
+                    activeLink = link;
+                    if (!isHovering) updateIndicator(activeLink, true);
                 }
-                wrapper.classList.remove('hidden');
-                wrapper.classList.add('visible');
-                wrapper.style.transition = 'none';
-                wrapper.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(0.98)';
-                wrapper.style.opacity = '0';
-                void wrapper.offsetHeight;
-                wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                wrapper.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(1)';
-                wrapper.style.opacity = '1';
-                bringToFrontWrapper(wrapper);
-                refreshUI();
-            }
 
-            function closeCard(wrapper, callback, skipJump) {
-                if (!wrapper || wrapper._closing) return;
+                setTimeout(function() { updateIndicator(activeLink, false); }, 50);
 
-                var isContent = false;
-                Object.keys(cardMap).forEach(function(name) {
-                    if (cardMap[name] === wrapper) isContent = true;
+                links.forEach(function(link) {
+                    link.addEventListener('mouseenter', function() {
+                        isHovering = true;
+                        hoveredLink = this;
+                        updateIndicator(this, true);
+                    });
+                    link.addEventListener('click', function(e) {
+                        var href = this.getAttribute('href');
+                        if (href === '#' || href === '') {
+                            e.preventDefault();
+                            setActive(this);
+                            if (isHovering) updateIndicator(this, true);
+                        }
+                    });
                 });
 
-                animateClose(wrapper, function() {
-                    wrapper.classList.remove('visible');
-                    wrapper.classList.add('hidden');
-                    wrapper.style.transform = '';
-                    wrapper.style.opacity = '';
-                    wrapper.style.pointerEvents = '';
+                nav.addEventListener('mouseleave', function() {
+                    isHovering = false;
+                    hoveredLink = null;
+                    updateIndicator(activeLink, true);
+                });
 
-                    if (wrapper === wrapperNew) {
-                        if (timer) { clearInterval(timer);
-                            timer = null; }
-                        if (redirectTimer) { clearTimeout(redirectTimer);
-                            redirectTimer = null; }
-                        isCancelled = true;
-                        toggleBtn.textContent = '恢复自动跳转';
-                        toggleBtn.classList.add('disabled');
+                var resizeTimer;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(function() {
+                        var target = isHovering ? hoveredLink : activeLink;
+                        if (target) { updateIndicator(target, false);
+                            setTimeout(function() { updateIndicator(target, true); }, 50); }
+                    }, 100);
+                });
+            })();
+
+            // ============================================================
+            //  2. 移动端菜单
+            // ============================================================
+            (function initMobileNav() {
+                var menuToggle = document.getElementById('menuToggle');
+                var overlay = document.getElementById('mobileNavOverlay');
+                var panel = document.getElementById('mobileNavPanel');
+                var header = document.getElementById('siteHeader');
+                var isOpen = false;
+                var mobileLinks = panel.querySelectorAll('a');
+
+                function updateMenuPosition() {
+                    if (!header) return;
+                    var headerHeight = header.offsetHeight;
+                    var btnSize = 52;
+                    menuToggle.style.top = (headerHeight / 2 - btnSize / 2) + 'px';
+                    panel.style.top = headerHeight + 'px';
+                    panel.style.height = 'calc(100vh - ' + headerHeight + 'px)';
+                    panel.style.paddingTop = '1.5rem';
+                }
+                updateMenuPosition();
+
+                var resizeTimer;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(updateMenuPosition, 100);
+                });
+
+                function setMobileActive(link) {
+                    mobileLinks.forEach(function(l) { l.classList.remove('is-active'); });
+                    if (link) link.classList.add('is-active');
+                }
+
+                var centerMobile = document.getElementById('mobileNavCenterLink');
+                centerMobile.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    setMobileActive(this);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if (isOpen) closeMenu();
+                });
+
+                var aboutMobile = document.getElementById('aboutLinkMobile');
+                aboutMobile.addEventListener('click', function(e) {
+                    // 调用公共滚动函数（包含高亮）
+                    if (window.scrollToFooter) {
+                        window.scrollToFooter(e);
                     }
+                    // 关闭菜单
+                    if (isOpen) closeMenu();
+                });
 
-                    var isMobile = window.innerWidth <= 480;
-                    if (isMobile && hiddenStack.length > 0 && !callback) {
-                        var prev = hiddenStack.pop();
-                        if (prev && !prev.classList.contains('visible')) {
-                            showCardWithAnimation(prev, false, false);
-                            if (prev === wrapperNew) {
-                                startAll();
+                panel.querySelectorAll('a[target="_blank"]').forEach(function(a) {
+                    a.addEventListener('click', function() {
+                        if (isOpen) closeMenu();
+                    });
+                });
+
+                function openMenu() {
+                    isOpen = true;
+                    menuToggle.classList.add('active');
+                    overlay.classList.add('open');
+                    panel.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeMenu() {
+                    isOpen = false;
+                    menuToggle.classList.remove('active');
+                    overlay.classList.remove('open');
+                    panel.classList.remove('open');
+                    document.body.style.overflow = '';
+                }
+
+                function toggleMenu() {
+                    if (isOpen) closeMenu();
+                    else openMenu();
+                }
+
+                menuToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleMenu();
+                });
+
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === overlay) closeMenu();
+                });
+
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && isOpen) closeMenu();
+                });
+
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth >= 640 && isOpen) closeMenu();
+                });
+
+                setMobileActive(centerMobile);
+            })();
+
+            // ============================================================
+            //  3. 卡片系统（自动发现，无需硬编码）
+            // ============================================================
+            (function initCards() {
+                var overlay = document.getElementById('cardOverlay');
+                var stackWrapper = document.getElementById('cardStackWrapper');
+                var stack = document.getElementById('cardStack');
+                var header = document.getElementById('siteHeader');
+
+                // ---- 自动收集所有卡片和 wrapper ----
+                var allCards = document.querySelectorAll('.project-card');
+                var allWrappers = document.querySelectorAll('.card-wrapper');
+
+                // 动态构建 cardMap
+                var cardMap = {};
+                allCards.forEach(function(card) {
+                    var key = card.getAttribute('data-card');
+                    if (key) {
+                        var wrapper = document.getElementById('wrapper-' + key);
+                        if (wrapper) {
+                            cardMap[key] = wrapper;
+                        }
+                    }
+                });
+
+                var zIndexCounter = 10;
+                var offsetMap = {};
+                allWrappers.forEach(function(w) {
+                    offsetMap[w.id] = { x: 0, y: 0 };
+                });
+
+                // ---------- 内部函数：更新加减号状态（根据 visible 状态） ----------
+                function updateToggleIcons() {
+                    allCards.forEach(function(card) {
+                        var toggle = card.querySelector('.card-toggle');
+                        if (!toggle) return;
+                        var key = card.getAttribute('data-card');
+                        var wrapper = cardMap[key];
+                        if (wrapper) {
+                            if (wrapper._closing) return; // 动画中保持当前状态
+                            if (wrapper.classList.contains('visible')) {
+                                toggle.classList.add('active');
+                            } else {
+                                toggle.classList.remove('active');
                             }
                         }
-                        refreshUI();
-                        return;
-                    }
-
-                    if (callback) callback();
-                    if (!skipJump) {
-                        checkAndShowJump();
-                    }
-                    refreshUI();
-                });
-            }
-
-            function checkAndShowJump() {
-                if (wrapperNew.classList.contains('visible')) return;
-                var visibleCards = cardStack.querySelectorAll('.card-wrapper.visible:not(#wrapper-new)');
-                if (visibleCards.length > 0 || hiddenStack.length > 0) return;
-                showCardWithAnimation(wrapperNew, false, false);
-                startAll();
-            }
-
-            function resetCountdown() { countdown = 3;
-                countdownSpan.textContent = countdown; }
-
-            function startRedirect() {
-                if (redirectTimer) clearTimeout(redirectTimer);
-                redirectTimer = setTimeout(function() {
-                    if (!isCancelled) window.location.href = 'https://Leukeen.com';
-                }, countdown * 1000);
-            }
-
-            function startCountdown() {
-                if (timer) clearInterval(timer);
-                resetCountdown();
-                countdownSpan.textContent = countdown;
-                timer = setInterval(function() {
-                    if (isCancelled) return;
-                    countdown--;
-                    countdownSpan.textContent = countdown;
-                    if (countdown <= 0) { clearInterval(timer);
-                        timer = null; }
-                }, 1000);
-            }
-
-            function startAll() {
-                isCancelled = false;
-                toggleBtn.textContent = '取消自动跳转';
-                toggleBtn.classList.remove('disabled');
-                resetCountdown();
-                startCountdown();
-                startRedirect();
-            }
-
-            function stopAll() {
-                isCancelled = true;
-                if (timer) { clearInterval(timer);
-                    timer = null; }
-                if (redirectTimer) { clearTimeout(redirectTimer);
-                    redirectTimer = null; }
-                toggleBtn.textContent = '恢复自动跳转';
-                toggleBtn.classList.add('disabled');
-            }
-
-            function openCardMobile(wrapper) {
-                if (!wrapper) return;
-
-                var stackIdx = hiddenStack.indexOf(wrapper);
-                if (stackIdx !== -1) {
-                    hiddenStack.splice(stackIdx, 1);
+                    });
                 }
 
-                var visibleWrappers = [];
-                var allVisible = cardStack.querySelectorAll('.card-wrapper.visible');
-                allVisible.forEach(function(w) {
-                    if (w !== wrapper && !w._closing) {
-                        visibleWrappers.push(w);
-                    }
-                });
+                function bringToFrontWrapper(wrapper) {
+                    if (!wrapper) return;
+                    wrapper.style.zIndex = ++zIndexCounter;
+                }
 
-                if (visibleWrappers.length === 0) {
-                    if (!wrapper.classList.contains('visible')) {
-                        showCardWithAnimation(wrapper, false, false);
-                    } else {
-                        var pos = getTranslate(wrapper);
-                        var tx = pos.x,
-                            ty = pos.y;
+                function initZIndex() {
+                    allWrappers.forEach(function(w, i) {
+                        w.style.zIndex = i + 1;
+                    });
+                    zIndexCounter = allWrappers.length + 1;
+                }
+                setTimeout(initZIndex, 0);
+
+                function getCardHeight(wrapper) {
+                    var main = wrapper.querySelector('.error-page-main');
+                    if (!main) return 0;
+                    var style = getComputedStyle(main);
+                    var marginTop = parseFloat(style.marginTop) || 0;
+                    var marginBottom = parseFloat(style.marginBottom) || 0;
+                    return main.offsetHeight + marginTop + marginBottom;
+                }
+
+                function updateStackHeight() {
+                    var visibleWrappers = stack.querySelectorAll('.card-wrapper.visible');
+                    var maxH = 0;
+                    visibleWrappers.forEach(function(w) {
+                        var h = getCardHeight(w);
+                        if (h > maxH) maxH = h;
+                    });
+                    stackWrapper.style.height = maxH > 0 ? maxH + 'px' : '0px';
+                }
+
+                function refreshUI() {
+                    var btns = stack.querySelectorAll('.link-btn');
+                    btns.forEach(function(btn) {
+                        var target = btn.getAttribute('data-card');
+                        if (!target) return;
+                        var w = cardMap[target];
+                        if (w && w.classList.contains('visible')) btn.classList.add('active');
+                        else btn.classList.remove('active');
+                    });
+                    updateToggleIcons();
+                    updateStackHeight();
+                }
+
+                function setWrapperTransform(wrapper, dx, dy, scale) {
+                    if (scale === undefined) scale = 1;
+                    wrapper.style.transform = 'translate(calc(-50% + ' + dx + 'px), calc(-50% + ' + dy + 'px)) scale(' + scale + ')';
+                    offsetMap[wrapper.id] = { x: dx, y: dy };
+                }
+
+                function animateClose(wrapper, callback) {
+                    if (!wrapper || wrapper._closing) return;
+                    wrapper._closing = true;
+
+                    // 关闭开始时立即将图标变为加号（移除 active）
+                    var key = wrapper.id.replace('wrapper-', '');
+                    var card = document.querySelector('.project-card[data-card="' + key + '"]');
+                    if (card) {
+                        var toggle = card.querySelector('.card-toggle');
+                        if (toggle) toggle.classList.remove('active');
+                    }
+
+                    var off = offsetMap[wrapper.id] || { x: 0, y: 0 };
+                    var tx = off.x,
+                        ty = off.y;
+                    wrapper.style.transition = '';
+                    wrapper.style.opacity = '';
+                    wrapper.style.pointerEvents = '';
+                    void wrapper.offsetHeight;
+                    wrapper.style.transition =
+                        'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    wrapper.style.transform = 'translate(calc(-50% + ' + tx + 'px), calc(-50% + ' + ty + 'px)) scale(0.98)';
+                    wrapper.style.opacity = '0';
+                    wrapper.style.pointerEvents = 'none';
+
+                    var onEnd = function(e) {
+                        if (e.propertyName === 'opacity' || e.propertyName === 'transform') {
+                            wrapper.removeEventListener('transitionend', onEnd);
+                            wrapper.style.transition = '';
+                            wrapper.style.transform = '';
+                            wrapper.style.opacity = '';
+                            wrapper.style.pointerEvents = '';
+                            wrapper._closing = false;
+                            if (callback) callback();
+                            refreshUI();
+                        }
+                    };
+                    wrapper.addEventListener('transitionend', onEnd);
+
+                    setTimeout(function() {
+                        if (wrapper._closing) {
+                            wrapper.removeEventListener('transitionend', onEnd);
+                            wrapper.style.transition = '';
+                            wrapper.style.transform = '';
+                            wrapper.style.opacity = '';
+                            wrapper.style.pointerEvents = '';
+                            wrapper._closing = false;
+                            if (callback) callback();
+                            refreshUI();
+                        }
+                    }, 400);
+                }
+
+                function showCardWithAnimation(wrapper, dx, dy) {
+                    dx = dx || 0;
+                    dy = dy || 0;
+                    wrapper.classList.remove('hidden');
+                    wrapper.classList.add('visible');
+                    wrapper.style.transition = 'none';
+                    setWrapperTransform(wrapper, dx, dy, 0.98);
+                    wrapper.style.opacity = '0';
+                    void wrapper.offsetHeight;
+                    wrapper.style.transition =
+                        'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    setWrapperTransform(wrapper, dx, dy, 1);
+                    wrapper.style.opacity = '1';
+                    bringToFrontWrapper(wrapper);
+                    refreshUI();
+                }
+
+                function closeCard(wrapper, callback) {
+                    if (!wrapper || wrapper._closing) return;
+                    animateClose(wrapper, function() {
+                        wrapper.classList.remove('visible');
+                        wrapper.classList.add('hidden');
+                        wrapper.style.transform = '';
+                        wrapper.style.opacity = '';
+                        wrapper.style.pointerEvents = '';
+                        if (callback) callback();
+                        refreshUI();
+                    });
+                }
+
+                function openCard(wrapper) {
+                    if (!wrapper) return;
+                    if (wrapper.classList.contains('visible')) {
+                        var off = offsetMap[wrapper.id] || { x: 0, y: 0 };
+                        var dx = off.x,
+                            dy = off.y;
                         wrapper.style.transition = 'none';
-                        wrapper.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(0.98)';
+                        setWrapperTransform(wrapper, dx, dy, 0.98);
                         wrapper.style.opacity = '0';
                         void wrapper.offsetHeight;
-                        wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                        wrapper.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(1)';
+                        wrapper.style.transition =
+                            'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                        setWrapperTransform(wrapper, dx, dy, 1);
                         wrapper.style.opacity = '1';
                         bringToFrontWrapper(wrapper);
                         refreshUI();
+                        return;
                     }
-                    return;
+                    showCardWithAnimation(wrapper, 0, 0);
                 }
 
-                visibleWrappers.forEach(function(w) {
-                    if (hiddenStack.indexOf(w) === -1) {
-                        hiddenStack.push(w);
-                    }
-                });
-
-                var total = visibleWrappers.length;
-                var completed = 0;
-                visibleWrappers.forEach(function(w) {
-                    animateClose(w, function() {
-                        w.classList.remove('visible');
-                        w.classList.add('hidden');
-                        w.style.transform = '';
-                        w.style.opacity = '';
-                        w.style.pointerEvents = '';
-                        completed++;
-                        if (completed === total) {
-                            if (!wrapper.classList.contains('visible')) {
-                                showCardWithAnimation(wrapper, false, false);
+                // ---- 卡片点击切换 ----
+                allCards.forEach(function(card) {
+                    card.addEventListener('click', function(e) {
+                        if (e.target.closest('a') || e.target.closest('.close-btn') || e.target.closest('.link-btn')) {
+                            return;
+                        }
+                        var key = this.getAttribute('data-card');
+                        if (key && cardMap[key]) {
+                            var wrapper = cardMap[key];
+                            if (wrapper.classList.contains('visible')) {
+                                closeCard(wrapper);
                             } else {
-                                var pos = getTranslate(wrapper);
-                                var tx = pos.x,
-                                    ty = pos.y;
-                                wrapper.style.transition = 'none';
-                                wrapper.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(0.98)';
-                                wrapper.style.opacity = '0';
-                                void wrapper.offsetHeight;
-                                wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                                wrapper.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(1)';
-                                wrapper.style.opacity = '1';
-                                bringToFrontWrapper(wrapper);
-                                refreshUI();
+                                openCard(wrapper);
                             }
                         }
                     });
                 });
-                if (timer) { clearInterval(timer);
-                    timer = null; }
-                if (redirectTimer) { clearTimeout(redirectTimer);
-                    redirectTimer = null; }
-                isCancelled = true;
-                refreshUI();
-            }
 
-            function openCardDesktop(wrapper) {
-                if (!wrapper) return;
-                if (wrapper.classList.contains('visible')) {
-                    var pos = getTranslate(wrapper);
-                    var tx = pos.x,
-                        ty = pos.y;
-                    wrapper.style.transition = 'none';
-                    wrapper.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(0.98)';
-                    wrapper.style.opacity = '0';
-                    void wrapper.offsetHeight;
-                    wrapper.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                    wrapper.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(1)';
-                    wrapper.style.opacity = '1';
-                    bringToFrontWrapper(wrapper);
-                    refreshUI();
-                    return;
-                }
-                showCardWithAnimation(wrapper, false, false);
-                if (timer) { clearInterval(timer);
-                    timer = null; }
-                if (redirectTimer) { clearTimeout(redirectTimer);
-                    redirectTimer = null; }
-                isCancelled = true;
-                refreshUI();
-            }
+                // ---- 关闭按钮 ----
+                document.querySelectorAll('[data-close]').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        var key = this.getAttribute('data-close');
+                        var w = cardMap[key];
+                        if (w) closeCard(w);
+                    });
+                });
 
-            function openCard(wrapper) {
-                if (!wrapper) return;
-                var isMobile = window.innerWidth <= 480;
-                if (isMobile) {
-                    openCardMobile(wrapper);
-                } else {
-                    openCardDesktop(wrapper);
-                }
-            }
-
-            function openCardByName(name) {
-                var wrapper = cardMap[name];
-                if (!wrapper) return;
-                openCard(wrapper);
-            }
-
-            function toggleCard(wrapper) {
-                if (!wrapper) return;
-                if (wrapper.classList.contains('visible')) {
-                    closeCard(wrapper);
-                    return;
-                }
-                openCard(wrapper);
-            }
-
-            // ===== 品牌区域切换逻辑 =====
-            var brandSection = document.getElementById('brandSection');
-            var menuToggle = document.getElementById('menuToggle');
-            var isBrandOpen = false;
-            var brandAnimating = false;
-
-            function toggleBrand() {
-                if (brandAnimating) return;
-                if (isBrandOpen) {
-                    hideBrand();
-                } else {
-                    showBrand();
-                }
-            }
-
-            function showBrand() {
-                if (brandAnimating || isBrandOpen) return;
-                brandAnimating = true;
-                brandSection.style.display = 'flex';
-                void brandSection.offsetHeight;
-                brandSection.classList.remove('brand-leave');
-                brandSection.classList.add('brand-enter');
-                menuToggle.classList.add('active');
-                isBrandOpen = true;
-                brandAnimating = false;
-                bringToFront(brandSection);
-            }
-
-            function hideBrand() {
-                if (brandAnimating || !isBrandOpen) return;
-                brandAnimating = true;
-                brandSection.classList.remove('brand-enter');
-                brandSection.classList.add('brand-leave');
-                menuToggle.classList.remove('active');
-
-                var onAnimationEnd = function() {
-                    brandSection.removeEventListener('animationend', onAnimationEnd);
-                    brandSection.classList.remove('brand-leave');
-                    brandSection.style.display = 'none';
-                    isBrandOpen = false;
-                    brandAnimating = false;
-                };
-                brandSection.addEventListener('animationend', onAnimationEnd);
-                setTimeout(function() {
-                    if (brandAnimating) {
-                        brandSection.removeEventListener('animationend', onAnimationEnd);
-                        brandSection.classList.remove('brand-leave');
-                        brandSection.style.display = 'none';
-                        isBrandOpen = false;
-                        brandAnimating = false;
+                // ---- 内部链接按钮 ----
+                stack.addEventListener('click', function(e) {
+                    var target = e.target.closest('.link-btn');
+                    if (target) {
+                        var key = target.getAttribute('data-card');
+                        if (key && cardMap[key]) {
+                            e.preventDefault();
+                            openCard(cardMap[key]);
+                        }
                     }
-                }, 500);
-            }
+                });
 
-            menuToggle.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleBrand();
-            });
+                document.querySelectorAll('.link-btn').forEach(function(btn) {
+                    btn.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            this.click();
+                        }
+                    });
+                });
 
-            // ===== 品牌区域点击提升层级 =====
-            brandSection.addEventListener('mousedown', function(e) {
-                bringToFront(brandSection);
-            });
+                // ---- 置顶点击 ----
+                stack.addEventListener('mousedown', function(e) {
+                    var wrapper = e.target.closest('.card-wrapper');
+                    if (wrapper && wrapper.classList.contains('visible') && !wrapper._closing) {
+                        bringToFrontWrapper(wrapper);
+                    }
+                });
 
-            // ===== 卡片点击提升层级 =====
-            cardStack.addEventListener('mousedown', function(e) {
-                var wrapper = e.target.closest('.card-wrapper');
-                if (wrapper && wrapper.classList.contains('visible') && !wrapper._closing) {
-                    bringToFrontWrapper(wrapper);
+                // ---- 点击空白关闭所有卡片 ----
+                overlay.addEventListener('mousedown', function(e) {
+                    if (e.target === overlay) {
+                        var visible = stack.querySelectorAll('.card-wrapper.visible');
+                        visible.forEach(function(w) {
+                            closeCard(w);
+                        });
+                    }
+                });
+
+                // ---- 拖拽 ----
+                function makeDraggable(wrapper) {
+                    var main = wrapper.querySelector('.error-page-main');
+                    if (!main) return;
+                    var style = getComputedStyle(main);
+                    var padTop = parseFloat(style.paddingTop) || 0;
+                    var padRight = parseFloat(style.paddingRight) || 0;
+                    var padBottom = parseFloat(style.paddingBottom) || 0;
+                    var padLeft = parseFloat(style.paddingLeft) || 0;
+
+                    var isDragging = false;
+                    var startCX = 0,
+                        startCY = 0;
+                    var startOffX = 0,
+                        startOffY = 0;
+                    var cardWidth = 0,
+                        cardHeight = 0;
+
+                    function getCardDimensions() {
+                        var mainRect = main.getBoundingClientRect();
+                        return { w: mainRect.width, h: mainRect.height };
+                    }
+
+                    function isInPaddingArea(e) {
+                        var rect = main.getBoundingClientRect();
+                        var point = e.touches ? e.touches[0] : e;
+                        var x = point.clientX - rect.left;
+                        var y = point.clientY - rect.top;
+                        var w = rect.width;
+                        var h = rect.height;
+                        var inLeft = x < padLeft;
+                        var inRight = x > w - padRight;
+                        var inTop = y < padTop;
+                        var inBottom = y > h - padBottom;
+                        return (inLeft || inRight || inTop || inBottom);
+                    }
+
+                    function onStart(e) {
+                        if (e.type === 'mousedown' && e.button !== 0) return;
+                        if (wrapper.classList.contains('hidden')) return;
+                        if (wrapper._closing) return;
+                        var target = e.target;
+                        if (target.closest('.close-btn') || target.closest('a') || target.closest('.link-btn')) return;
+                        if (!isInPaddingArea(e)) return;
+
+                        e.preventDefault();
+                        bringToFrontWrapper(wrapper);
+                        var curOff = offsetMap[wrapper.id] || { x: 0, y: 0 };
+                        startOffX = curOff.x;
+                        startOffY = curOff.y;
+                        var point = e.touches ? e.touches[0] : e;
+                        startCX = point.clientX;
+                        startCY = point.clientY;
+                        var dim = getCardDimensions();
+                        cardWidth = dim.w;
+                        cardHeight = dim.h;
+                        isDragging = true;
+                        wrapper.style.transition = 'none';
+                        wrapper.classList.add('dragging');
+                        main.style.cursor = 'grabbing';
+                    }
+
+                    function onMove(e) {
+                        if (!isDragging) return;
+                        e.preventDefault();
+                        var point = e.touches ? e.touches[0] : e;
+                        var dx = point.clientX - startCX;
+                        var dy = point.clientY - startCY;
+                        var newX = startOffX + dx;
+                        var newY = startOffY + dy;
+                        var vw = window.innerWidth;
+                        var vh = window.innerHeight;
+                        var centerX = vw / 2 + newX;
+                        var centerY = vh / 2 + newY;
+                        var left = centerX - cardWidth / 2;
+                        var right = centerX + cardWidth / 2;
+                        var top = centerY - cardHeight / 2;
+                        var bottom = centerY + cardHeight / 2;
+                        var minLeft = -cardWidth / 2;
+                        var maxRight = vw + cardWidth / 2;
+                        var headerBottom = header ? header.getBoundingClientRect().bottom : 0;
+                        var minTop = Math.max(headerBottom, -cardHeight / 2);
+                        var maxBottom = vh + cardHeight / 2;
+
+                        if (left < minLeft) {
+                            var newCenterX = minLeft + cardWidth / 2;
+                            newX = newCenterX - vw / 2;
+                        } else if (right > maxRight) {
+                            var newCenterX = maxRight - cardWidth / 2;
+                            newX = newCenterX - vw / 2;
+                        }
+                        if (top < minTop) {
+                            var newCenterY = minTop + cardHeight / 2;
+                            newY = newCenterY - vh / 2;
+                        } else if (bottom > maxBottom) {
+                            var newCenterY = maxBottom - cardHeight / 2;
+                            newY = newCenterY - vh / 2;
+                        }
+                        setWrapperTransform(wrapper, newX, newY, 1);
+                    }
+
+                    function onEnd(e) {
+                        if (!isDragging) return;
+                        isDragging = false;
+                        wrapper.classList.remove('dragging');
+                        wrapper.style.transition = '';
+                        main.style.cursor = 'grab';
+                    }
+
+                    main.addEventListener('mousedown', onStart);
+                    main.addEventListener('touchstart', onStart, { passive: false });
+                    document.addEventListener('mousemove', onMove);
+                    document.addEventListener('touchmove', onMove, { passive: false });
+                    document.addEventListener('mouseup', onEnd);
+                    document.addEventListener('touchend', onEnd);
+                    document.addEventListener('touchcancel', onEnd);
+
+                    main.addEventListener('mousemove', function(e) {
+                        if (isDragging) return;
+                        if (wrapper.classList.contains('hidden')) { main.style.cursor = ''; return; }
+                        if (isInPaddingArea(e)) {
+                            main.style.cursor = 'grab';
+                        } else {
+                            main.style.cursor = '';
+                        }
+                    });
+                    main.addEventListener('mouseleave', function() { main.style.cursor = ''; });
                 }
-            });
+
+                allWrappers.forEach(function(w) { makeDraggable(w); });
+                refreshUI();
+                window.addEventListener('resize', function() { refreshUI(); });
+                window.openCard = openCard;
+            })();
 
             // ============================================================
-            // 鼠标吸附 + 触摸跟随 + 3D 视差（修复点击失效 & 长按卡顿）
+            //  4. 鼠标吸附 + 触摸跟随
             // ============================================================
             (function initAttract() {
-                var btn = menuToggle;
+                var btn = document.getElementById('menuToggle');
+                if (!btn) return;
                 var svg = btn.querySelector('.menu-icon-svg');
                 var currentX = 0,
                     currentY = 0;
@@ -1600,225 +2012,194 @@
                 });
             })();
 
-            // ===== 绑定事件 =====
-            triggerCultuer.addEventListener('click', function(e) { e.stopPropagation();
-                toggleCard(wrapperCultuer); });
-            triggerGray.addEventListener('click', function(e) { e.stopPropagation();
-                toggleCard(wrapperGray); });
-            triggerWiki.addEventListener('click', function(e) { e.stopPropagation();
-                toggleCard(wrapperWiki); });
-            triggerPaper.addEventListener('click', function(e) { e.stopPropagation();
-                toggleCard(wrapperPaper); });
-            triggerFlow.addEventListener('click', function(e) { e.stopPropagation();
-                toggleCard(wrapperFlow); });
-            triggerUniverse.addEventListener('click', function(e) { e.stopPropagation();
-                toggleCard(wrapperUniverse); });
+            // ============================================================
+            //  5. “关于”滚动（桌面）
+            // ============================================================
+            (function initAboutScroll() {
+                var footer = document.getElementById('siteFooter');
+                var header = document.getElementById('siteHeader');
+                var highlightTimer = null;
 
-            // 对 span.link-btn 的点击处理（与原先的 button 一致）
-            cardStack.addEventListener('click', function(e) {
-                var target = e.target.closest('.link-btn');
-                if (target) {
-                    var cardName = target.getAttribute('data-target');
-                    if (cardName) {
-                        e.preventDefault();
-                        openCardByName(cardName);
+                // ---- 公共滚动函数（包含高亮） ----
+                function scrollToFooter(e) {
+                    if (e) e.preventDefault();
+                    if (!footer || !header) return;
+
+                    // 清除旧定时器，防止冲突
+                    if (highlightTimer) {
+                        clearTimeout(highlightTimer);
+                        footer.classList.remove('highlight');
                     }
-                }
-            });
 
-            // 手动跳转链接（span 版）点击处理
-            manualLink.addEventListener('click', function(e) {
-                if (redirectTimer) { clearTimeout(redirectTimer);
-                    redirectTimer = null; }
-                if (timer) { clearInterval(timer);
-                    timer = null; }
-                window.location.href = 'https://Leukeen.com';
-            });
-            // 键盘支持
-            manualLink.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
+                    // 立即高亮
+                    footer.classList.add('highlight');
+
+                    // 0.4 秒后移除高亮（与 transition 时长一致）
+                    highlightTimer = setTimeout(function() {
+                        footer.classList.remove('highlight');
+                        highlightTimer = null;
+                    }, 400);
+
+                    // 滚动到页脚（减去导航栏高度）
+                    var headerHeight = header.offsetHeight;
+                    var footerRect = footer.getBoundingClientRect();
+                    var scrollTarget = window.pageYOffset + footerRect.top - headerHeight;
+                    window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+                }
+
+                // 绑定桌面“关于”链接
+                var aboutLink = document.getElementById('aboutLink');
+                if (aboutLink) aboutLink.addEventListener('click', scrollToFooter);
+
+                // 绑定副标题中的“凌昉事业部”链接
+                var footerLink = document.getElementById('scrollToFooterLink');
+                if (footerLink) footerLink.addEventListener('click', scrollToFooter);
+
+                // 绑定移动端面板中的“关于”链接（在 initMobileNav 中也会处理，但这里再绑一次确保）
+                var aboutMobile = document.getElementById('aboutLinkMobile');
+                if (aboutMobile) aboutMobile.addEventListener('click', scrollToFooter);
+
+                // 暴露给其他模块（如移动端菜单关闭时调用）
+                window.scrollToFooter = scrollToFooter;
+            })();
+
+            // ============================================================
+            //  6. “中心”滚动到顶（桌面）
+            // ============================================================
+            (function initCenterScroll() {
+                var centerLink = document.getElementById('navCenterLink');
+                centerLink.addEventListener('click', function(e) {
                     e.preventDefault();
-                    this.click();
-                }
-            });
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            })();
 
-            closeBtn.addEventListener('click', function() {
-                if (wrapperOriginal._closing) return;
-                if (wrapperOriginal.classList.contains('visible')) {
-                    closeCard(wrapperOriginal);
-                }
-            });
-            closeGrayBtn.addEventListener('click', function() { closeCard(wrapperGray); });
-            closeCultuerBtn.addEventListener('click', function() { closeCard(wrapperCultuer); });
-            closeWikiBtn.addEventListener('click', function() { closeCard(wrapperWiki); });
-            closePaperBtn.addEventListener('click', function() { closeCard(wrapperPaper); });
-            closeFlowBtn.addEventListener('click', function() { closeCard(wrapperFlow); });
-            closeUniverseBtn.addEventListener('click', function() { closeCard(wrapperUniverse); });
+            // ============================================================
+            //  7. Tabs 指示器 + 筛选 + 标题更新
+            // ============================================================
+            (function initTabs() {
+                var tabsContainer = document.getElementById('tabsContainer');
+                var tabs = tabsContainer.querySelectorAll('.tab');
+                var oldIndicator = document.getElementById('tabIndicatorOld');
+                var newIndicator = document.getElementById('tabIndicatorNew');
+                var heroTitle = document.getElementById('heroTitle');
+                var projectGrid = document.getElementById('projectGrid');
+                var projectCards = projectGrid.querySelectorAll('.project-card');
 
-            closeNewBtn.addEventListener('click', function() {
-                if (wrapperNew._closing) return;
-                closeCard(wrapperNew, function() {
-                    if (timer) { clearInterval(timer);
-                        timer = null; }
-                    if (redirectTimer) { clearTimeout(redirectTimer);
-                        redirectTimer = null; }
-                    isCancelled = true;
-                    toggleBtn.textContent = '恢复自动跳转';
-                    toggleBtn.classList.add('disabled');
-                }, true);
-            });
+                var activeTab = tabsContainer.querySelector('.tab.is-active');
+                var isAnimating = false;
 
-            toggleBtn.addEventListener('click', function() {
-                if (isCancelled) startAll();
-                else stopAll();
-            });
-
-            // ===== 拖拽功能 =====
-            function makeDraggable(wrapper) {
-                var main = wrapper.querySelector('.error-page-main');
-                if (!main) return;
-
-                var style = getComputedStyle(main);
-                var padTop = parseFloat(style.paddingTop) || 50;
-
-                var isDragging = false;
-                var startClientX = 0,
-                    startClientY = 0;
-                var startCardLeft = 0,
-                    startCardTop = 0;
-                var defaultOffsetX = 0,
-                    defaultOffsetY = 0;
-                var cardWidth = 0,
-                    cardHeight = 0;
-                var container = cardStack;
-
-                function onStart(e) {
-                    if (e.type === 'mousedown' && e.button !== 0) return;
-                    if (wrapper.classList.contains('hidden')) return;
-                    if (wrapper._closing) return;
-
-                    var target = e.target;
-                    if (target.closest('.close-btn') || target.closest('a') || target.closest('.toggle-btn') || target
-                        .closest('.link-btn')) return;
-
-                    var rect = main.getBoundingClientRect();
-                    var point = e.touches ? e.touches[0] : e;
-                    var offsetY = point.clientY - rect.top;
-
-                    if (offsetY > padTop) return;
-                    if (target.closest('h3')) return;
-
-                    e.preventDefault();
-
-                    bringToFrontWrapper(wrapper);
-
-                    var pos = getTranslate(wrapper);
-                    var containerRect = container.getBoundingClientRect();
-                    var cardRect = main.getBoundingClientRect();
-
-                    startCardLeft = cardRect.left;
-                    startCardTop = cardRect.top;
-                    cardWidth = main.offsetWidth;
-                    cardHeight = main.offsetHeight;
-
-                    defaultOffsetX = startCardLeft - containerRect.left - pos.x;
-                    defaultOffsetY = startCardTop - containerRect.top - pos.y;
-
-                    startClientX = point.clientX;
-                    startClientY = point.clientY;
-
-                    isDragging = true;
-                    wrapper.style.transition = 'none';
-                    wrapper.classList.add('dragging');
-                    main.style.cursor = 'grabbing';
+                function filterProjects(filter) {
+                    projectCards.forEach(function(card) {
+                        var tag = card.getAttribute('data-tag');
+                        if (filter === 'all' || tag === filter) {
+                            card.classList.remove('hidden-project');
+                        } else {
+                            card.classList.add('hidden-project');
+                        }
+                    });
                 }
 
-                function onMove(e) {
-                    if (!isDragging) return;
-                    e.preventDefault();
-                    var point = e.touches ? e.touches[0] : e;
-
-                    var dx = point.clientX - startClientX;
-                    var dy = point.clientY - startClientY;
-
-                    var targetLeft = startCardLeft + dx;
-                    var targetTop = startCardTop + dy;
-
-                    var vw = window.innerWidth,
-                        vh = window.innerHeight;
-                    var minX = 0,
-                        maxX = vw - cardWidth;
-                    var minY = 0,
-                        maxY = vh - cardHeight;
-                    if (cardWidth > vw) { minX = vw - cardWidth;
-                        maxX = 0; }
-                    if (cardHeight > vh) { minY = vh - cardHeight;
-                        maxY = 0; }
-
-                    var clampedLeft = Math.min(Math.max(targetLeft, minX), maxX);
-                    var clampedTop = Math.min(Math.max(targetTop, minY), maxY);
-
-                    var containerRect = container.getBoundingClientRect();
-                    var newTx = clampedLeft - containerRect.left - defaultOffsetX;
-                    var newTy = clampedTop - containerRect.top - defaultOffsetY;
-
-                    wrapper.style.transform = 'translate(' + newTx + 'px, ' + newTy + 'px)';
-                }
-
-                function onEnd(e) {
-                    if (!isDragging) return;
-                    isDragging = false;
-                    wrapper.classList.remove('dragging');
-                    wrapper.style.transition = '';
-                    main.style.cursor = 'grab';
-                }
-
-                main.addEventListener('mousedown', onStart);
-                main.addEventListener('touchstart', onStart, { passive: false });
-
-                document.addEventListener('mousemove', onMove);
-                document.addEventListener('touchmove', onMove, { passive: false });
-                document.addEventListener('mouseup', onEnd);
-                document.addEventListener('touchend', onEnd);
-                document.addEventListener('touchcancel', onEnd);
-
-                main.addEventListener('mousemove', function(e) {
-                    if (isDragging) return;
-                    if (wrapper.classList.contains('hidden')) { main.style.cursor = ''; return; }
-                    var rect = main.getBoundingClientRect();
-                    var offsetY = e.clientY - rect.top;
-                    if (offsetY <= padTop && !e.target.closest('h3') && !e.target.closest('.close-btn') && !e
-                        .target.closest('a') && !e.target.closest('.link-btn')) {
-                        main.style.cursor = 'grab';
+                function updateTitle(tab) {
+                    var text = tab.textContent.trim();
+                    if (text === '全部') {
+                        heroTitle.textContent = '中心';
                     } else {
-                        main.style.cursor = '';
+                        heroTitle.textContent = text;
                     }
-                });
-                main.addEventListener('mouseleave', function() { main.style.cursor = ''; });
-            }
+                }
 
-            var allWrappers = [wrapperOriginal, wrapperNew, wrapperGray, wrapperCultuer, wrapperWiki, wrapperPaper,
-                wrapperFlow, wrapperUniverse
-            ];
-            allWrappers.forEach(function(w) {
-                makeDraggable(w);
-            });
+                function setIndicatorPos(indicator, tab, scale) {
+                    if (!tab) return;
+                    var rect = tab.getBoundingClientRect();
+                    var parentRect = tabsContainer.getBoundingClientRect();
+                    var left = rect.left - parentRect.left;
+                    var width = rect.width;
+                    indicator.style.transition = 'none';
+                    indicator.style.left = left + 'px';
+                    indicator.style.width = width + 'px';
+                    indicator.style.transform = 'scaleX(' + scale + ')';
+                    void indicator.offsetHeight;
+                    indicator.style.transition = 'transform 0.35s ease, left 0s, width 0s';
+                }
 
-            refreshUI();
+                function switchTab(newTab) {
+                    if (isAnimating) return;
+                    if (newTab === activeTab) return;
 
-            window.addEventListener('resize', function() {
-                refreshUI();
-            });
-
-            // 给所有 .link-btn 添加键盘支持（空格/回车触发点击）
-            document.querySelectorAll('.link-btn').forEach(function(btn) {
-                btn.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        this.click();
+                    var oldTab = activeTab;
+                    if (!oldTab) {
+                        setIndicatorPos(newIndicator, newTab, 1);
+                        newIndicator.style.transform = 'scaleX(1)';
+                        newTab.classList.add('is-active');
+                        activeTab = newTab;
+                        updateTitle(newTab);
+                        filterProjects(newTab.getAttribute('data-filter'));
+                        return;
                     }
+
+                    isAnimating = true;
+                    setIndicatorPos(oldIndicator, oldTab, 1);
+                    setIndicatorPos(newIndicator, newTab, 0);
+
+                    oldIndicator.style.transform = 'scaleX(0)';
+                    newIndicator.style.transform = 'scaleX(1)';
+
+                    oldTab.classList.remove('is-active');
+                    newTab.classList.add('is-active');
+
+                    updateTitle(newTab);
+                    filterProjects(newTab.getAttribute('data-filter'));
+
+                    var onFinish = function() {
+                        oldIndicator.style.transition = 'none';
+                        oldIndicator.style.transform = 'scaleX(0)';
+                        newIndicator.style.transition = '';
+                        isAnimating = false;
+                        activeTab = newTab;
+                        oldIndicator.removeEventListener('transitionend', onFinish);
+                        newIndicator.removeEventListener('transitionend', onFinish);
+                    };
+
+                    oldIndicator.addEventListener('transitionend', onFinish);
+                    newIndicator.addEventListener('transitionend', onFinish);
+
+                    setTimeout(function() {
+                        if (isAnimating) {
+                            oldIndicator.removeEventListener('transitionend', onFinish);
+                            newIndicator.removeEventListener('transitionend', onFinish);
+                            onFinish();
+                        }
+                    }, 400);
+                }
+
+                tabs.forEach(function(tab) {
+                    tab.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (this === activeTab) return;
+                        switchTab(this);
+                    });
                 });
-            });
+
+                if (activeTab) {
+                    setIndicatorPos(newIndicator, activeTab, 1);
+                    newIndicator.style.transform = 'scaleX(1)';
+                    updateTitle(activeTab);
+                    filterProjects(activeTab.getAttribute('data-filter'));
+                }
+
+                var resizeTimer;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(function() {
+                        if (activeTab) {
+                            setIndicatorPos(newIndicator, activeTab, 1);
+                            oldIndicator.style.transition = 'none';
+                            oldIndicator.style.transform = 'scaleX(0)';
+                        }
+                    }, 100);
+                });
+            })();
 
         })();
     </script>
