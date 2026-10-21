@@ -103,6 +103,7 @@
             position: sticky;
             top: 0;
             z-index: 1002;
+            min-height: 3.75rem;
         }
         .header-bar {
             display: flex;
@@ -164,6 +165,34 @@
                 gap: var(--space-sm);
             }
         }
+        @media (max-width: 639px) {
+            .site-header {
+                min-height: 3.5rem;   /* ← 手机上略矮一点 */
+            }
+        }
+        /* ---- 头部口号（跟随 .brand-url 字体） ---- */
+        .brand-slogan {
+            display: inline-block;
+            white-space: nowrap;
+            color: var(--color-muted);
+        }
+        .brand-slogan .slogan-caret {
+            display: none;
+            width: 1px;              /* 1.5px → 1px，小字下才像光标 */
+            height: 1.05em;          /* 略高于小写字母，逼近真实文本光标 */
+            margin-left: 2px;
+            vertical-align: -0.16em; /* 底部略探到基线之下，是光标的关键特征 */
+            background: currentColor;
+            /* 去掉 border-radius，原生光标是直角 */
+            animation: sloganBlink 1s steps(1, end) infinite;
+        }
+        @keyframes sloganBlink {
+            0%, 50%      { opacity: 1; }
+            50.01%, 100% { opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .brand-slogan .slogan-caret { animation: none; opacity: 1; }
+        }
 
         .nav-wrapper {
             position: relative;
@@ -209,6 +238,9 @@
             z-index: 0;
         }
         @media (max-width: 639px) {
+            .header-bar {
+                gap: normal;/* 让brand太长时，底下不会多出一坨空 */
+            }
             .nav-menu {
                 display: none !important;
             }
@@ -234,7 +266,6 @@
             background: transparent;
             color: #000000;
             top: 50%;
-            transform: translateY(-50%) translate(0, 0);
         }
         .menu-toggle:active {
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
@@ -960,9 +991,9 @@
                     <img src="leukeen.png" class="mw-logo-icon" alt="福建凌昉文化媒体事业部" />
                 </a>
                 <span class="brand-divider"></span>
-                <a href="https://www.4lk.cn/" class="brand-text" target="_blank" title="凌昉中心网">
+                <a href="https://s4.pw/" class="brand-text" target="_blank" title="凌昉中心网">
                     <span class="brand-name">中心网</span>
-                    <span class="brand-url">www.<span style="color: FireBrick;">4lk</span>.cn</span>
+                    <span class="brand-url"><span style="color: FireBrick;">S4</span>.pw | <span class="brand-slogan"><span id="sloganText"></span><span class="slogan-caret" aria-hidden="true"></span></span></span>
                 </a>
             </div>
             <div class="nav-wrapper">
@@ -1274,7 +1305,7 @@
             // ---- 外部链接标记 ----
             function markExternalLinks() {
                 var links = document.querySelectorAll('a[href]');
-                var internal = ['leukeen.com', '4lk.cn'];
+                var internal = ['leukeen.com', 's4.pw'];
                 links.forEach(function(link) {
                     var href = link.href;
                     if (!href) return;
@@ -1371,9 +1402,14 @@
 
                 function updateMenuPosition() {
                     if (!header) return;
+
                     var headerHeight = header.offsetHeight;
                     var btnSize = 52;
+
+                    // 让按钮垂直中心对齐 header 中线
                     menuToggle.style.top = (headerHeight / 2 - btnSize / 2) + 'px';
+
+                    // 移动端面板从 header 下方开始，高度撑满剩余视口
                     panel.style.top = headerHeight + 'px';
                     panel.style.height = 'calc(100vh - ' + headerHeight + 'px)';
                     panel.style.paddingTop = '1.5rem';
@@ -2025,50 +2061,91 @@
                 var footer = document.getElementById('siteFooter');
                 var header = document.getElementById('siteHeader');
                 var highlightTimer = null;
+                var pendingHighlight = false;
 
-                // ---- 公共滚动函数（包含高亮） ----
-                function scrollToFooter(e) {
-                    if (e) e.preventDefault();
-                    if (!footer || !header) return;
+                function flashFooter() {
+                    if (!footer || !pendingHighlight) return;
+                    pendingHighlight = false;
 
-                    // 清除旧定时器，防止冲突
-                    if (highlightTimer) {
-                        clearTimeout(highlightTimer);
-                        footer.classList.remove('highlight');
-                    }
+                    if (highlightTimer) clearTimeout(highlightTimer);
 
-                    // 立即高亮
+                    // 先移除再强制重排，保证连续触发也能重新过渡
+                    footer.classList.remove('highlight');
+                    void footer.offsetHeight;
                     footer.classList.add('highlight');
 
-                    // 0.4 秒后移除高亮（与 transition 时长一致）
+                    // 400ms 后移除，和 CSS 的 transition 0.4s 对齐
                     highlightTimer = setTimeout(function() {
                         footer.classList.remove('highlight');
                         highlightTimer = null;
                     }, 400);
+                }
 
-                    // 滚动到页脚（减去导航栏高度）
+                function isFooterInViewport() {
+                    if (!footer) return false;
+                    var rect = footer.getBoundingClientRect();
+                    var vh = window.innerHeight || document.documentElement.clientHeight;
+                    // 页脚顶部进入视口下方 85% 区域，并且底部还在视口内
+                    return rect.top < vh * 0.85 && rect.bottom > 0;
+                }
+
+                function scrollToFooter(e) {
+                    if (e) e.preventDefault();
+                    if (!footer || !header) return;
+
+                    pendingHighlight = true;
+
                     var headerHeight = header.offsetHeight;
                     var footerRect = footer.getBoundingClientRect();
                     var scrollTarget = window.pageYOffset + footerRect.top - headerHeight;
-                    window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+
+                    window.scrollTo({
+                        top: scrollTarget,
+                        behavior: 'smooth'
+                    });
+
+                    // 如果页脚本来就已经在屏幕里，下一帧直接闪
+                    requestAnimationFrame(function() {
+                        if (isFooterInViewport()) flashFooter();
+                    });
                 }
 
-                // 绑定桌面“关于”链接
+                // 页脚进入视口后再闪烁
+                if ('IntersectionObserver' in window && footer) {
+                    new IntersectionObserver(function(entries) {
+                        entries.forEach(function(entry) {
+                            if (entry.isIntersecting && pendingHighlight) {
+                                flashFooter();
+                            }
+                        });
+                    }, {
+                        threshold: 0.15 // 页脚露出约 15% 时触发，可调 0.1 ~ 0.3
+                    }).observe(footer);
+                } else {
+                    // 兼容旧浏览器：滚动时判断
+                    var fallback = function() {
+                        if (pendingHighlight && isFooterInViewport()) {
+                            flashFooter();
+                        }
+                    };
+                    window.addEventListener('scroll', fallback, { passive: true });
+                    window.addEventListener('resize', fallback);
+                }
+
                 var aboutLink = document.getElementById('aboutLink');
                 if (aboutLink) aboutLink.addEventListener('click', scrollToFooter);
 
-                // 绑定副标题中的“凌昉事业部”链接
                 var footerLink = document.getElementById('scrollToFooterLink');
                 if (footerLink) footerLink.addEventListener('click', scrollToFooter);
 
-                // 绑定移动端面板中的“关于”链接（在 initMobileNav 中也会处理，但这里再绑一次确保）
+                // 移动端 initMobileNav 里已经会调用 window.scrollToFooter，
+                // 这里保留也不影响；若想避免重复绑定，可删掉下面两行。
                 var aboutMobile = document.getElementById('aboutLinkMobile');
                 if (aboutMobile) aboutMobile.addEventListener('click', scrollToFooter);
 
-                // 暴露给其他模块（如移动端菜单关闭时调用）
                 window.scrollToFooter = scrollToFooter;
             })();
-
+                        
             // ============================================================
             //  6. “中心”滚动到顶（桌面）
             // ============================================================
@@ -2207,6 +2284,84 @@
                 });
             })();
 
+            // ============================================================
+            //  8. 口号轮播（输入 → 停留 → 删除 → 下一条）
+            // ============================================================
+            (function initSlogan() {
+                var el = document.getElementById('sloganText');
+                if (!el) return;
+
+                // ---- 只改这里：要轮播的口号 ----
+                var SLOGANS = [
+                    '故事就是力量！',
+                    'Story for Power!',
+                ];
+
+                // ---- 节奏参数（毫秒）----
+                var TYPE_DELAY = 110;         // 每个字的输入间隔
+                var TYPE_JITTER = 70;         // 随机抖动，打字更自然
+                var DELETE_DELAY = 55;        // 每个字的删除间隔
+                var HOLD_AFTER_TYPE = 1800;   // 整句打完后的停留
+                var HOLD_AFTER_DELETE = 420;  // 删干净后的停顿
+
+                var reduce = window.matchMedia &&
+                    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                if (reduce) {                 // 用户开启了“减弱动效”，静态展示
+                    el.textContent = SLOGANS[0];
+                    return;
+                }
+
+                var idx = 0;
+                var paused = false;
+                var timer = null;
+
+                // 可暂停的 sleep：页面切到后台时时间不累加，回来不会“补打字”
+                function sleep(ms) {
+                    return new Promise(function(resolve) {
+                        var last = performance.now();
+                        var spent = 0;
+                        (function tick() {
+                            var now = performance.now();
+                            if (!paused) spent += now - last;
+                            last = now;
+                            if (spent >= ms) { resolve(); return; }
+                            timer = setTimeout(tick, 40);
+                        })();
+                    });
+                }
+
+                function render(chars) {
+                    el.textContent = chars.join('');
+                }
+
+                async function run() {
+                    while (true) {
+                        // Array.from 保证 emoji / 代理对不会被拆成乱码
+                        var chars = Array.from(SLOGANS[idx]);
+
+                        for (var i = 1; i <= chars.length; i++) {
+                            render(chars.slice(0, i));
+                            await sleep(TYPE_DELAY + Math.random() * TYPE_JITTER);
+                        }
+                        await sleep(HOLD_AFTER_TYPE);
+
+                        for (var j = chars.length - 1; j >= 0; j--) {
+                            render(chars.slice(0, j));
+                            await sleep(DELETE_DELAY);
+                        }
+                        await sleep(HOLD_AFTER_DELETE);
+
+                        idx = (idx + 1) % SLOGANS.length;
+                    }
+                }
+
+                document.addEventListener('visibilitychange', function() {
+                    paused = document.hidden;
+                });
+
+                run();
+            })();
         })();
     </script>
 </body>
