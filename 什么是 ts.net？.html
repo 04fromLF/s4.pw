@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <title>什么是 s4.pw？</title>
+  <style>
+    /* ===== 可过渡的扫光进度变量 ===== */
+    @property --sweep {
+      syntax: '<percentage>';
+      initial-value: 0%;
+      inherits: true;
+    }
+
+    /* ===== 设计令牌 ===== */
+    :root {
+      color-scheme: light dark;
+
+      --hue-primary: 227;
+      --hue-accent: 350;
+
+      --l-primary: 47%;
+      --s-primary: 48%;
+
+      --bg: hsl(0 0% 100%);
+      --text: hsl(0 0% 9%);
+      --logo: hsl(0 0% 9%);
+
+      --link: hsl(var(--hue-primary) var(--s-primary) var(--l-primary));
+      --link-hover: hsl(var(--hue-primary) var(--s-primary) calc(var(--l-primary) - 14%));
+
+      --code-bg: hsl(30 20% 97%);
+      --code-border: hsl(30 15% 92%);
+      --divider: hsl(30 15% 92%);
+
+      --selection-bg: hsl(var(--hue-accent) 90% 30%);
+      --selection-text: hsl(0 0% 100%);
+
+      /* 按钮 */
+      --btn-bg: hsl(var(--hue-primary) var(--s-primary) var(--l-primary));
+      --btn-text: hsl(0 0% 100%);
+      --btn-sub-text: hsl(var(--hue-primary) 55% 88%);
+
+      --sweep-bg: hsl(var(--hue-primary) var(--s-primary) calc(var(--l-primary) - 25%));
+      --sweep-text: hsl(var(--hue-primary) 80% 92%);
+      --sweep-sub-text: hsl(var(--hue-primary) 60% 80%);
+
+      /* 扫光起止点：各自推出按钮外侧，过渡带永远落在可视区外 */
+      --sweep-from: -2%;
+      --sweep-to: 102%;
+      --sweep-edge: 1%;
+
+      /* 尺寸 */
+      --fs-base: 0.9375rem;
+      --fs-sm: calc(var(--fs-base) * 0.8);
+      --fs-lg: calc(var(--fs-base) * 1.3333);
+
+      --lh-base: 1.65;
+      --lh-tight: 1.35;
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+
+      --radius-sm: 0.5rem;
+      --radius-md: 1rem;
+
+      --btn-arrow-w: 3.75rem;
+      --btn-pad-x: var(--space-5);
+      --btn-pad-y: var(--space-3);
+      --btn-gap: 1px;
+
+      --dur-fast: 0.15s;
+      --dur-base: 0.25s;
+      --dur-sweep: 0.5s;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+      --content-w: 28rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: hsl(0 0% 16%);
+        --text: hsl(0 0% 93%);
+        --logo: hsl(0 0% 100%);
+
+        --l-primary: 80%;
+        --s-primary: 70%;
+
+        --link: hsl(var(--hue-primary) var(--s-primary) var(--l-primary));
+        --link-hover: hsl(var(--hue-primary) var(--s-primary) calc(var(--l-primary) + 8%));
+
+        --code-bg: hsl(0 0% 12%);
+        --code-border: hsl(0 0% 22%);
+        --divider: hsl(0 0% 24%);
+
+        --btn-bg: hsl(var(--hue-primary) var(--s-primary) var(--l-primary));
+        --btn-text: hsl(var(--hue-primary) 25% 12%);
+        --btn-sub-text: hsl(var(--hue-primary) 20% 38%);
+
+        --sweep-bg: hsl(var(--hue-primary) 50% 48%);
+        --sweep-text: hsl(0 0% 100%);
+        --sweep-sub-text: hsl(var(--hue-primary) 70% 85%);
+      }
+    }
+
+    @media (min-width: 48rem) {
+      :root {
+        --fs-base: calc(0.84375rem + 0.1953125vw);
+      }
+    }
+
+    @media (min-width: 80rem) {
+      :root {
+        --fs-base: 1rem;
+      }
+    }
+
+    /* ===== 基础重置 ===== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    html,
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        "PingFang SC",
+        "Hiragino Sans GB",
+        "Microsoft YaHei UI",
+        "Microsoft YaHei",
+        "Noto Sans CJK SC",
+        "Source Han Sans SC",
+        "WenQuanYi Micro Hei",
+        sans-serif;
+      font-size: var(--fs-base);
+      line-height: var(--lh-base);
+      letter-spacing: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition:
+        background-color var(--dur-base) var(--ease),
+        color var(--dur-base) var(--ease);
+    }
+
+    ::selection {
+      background-color: var(--selection-bg);
+      color: var(--selection-text);
+    }
+
+    ::-moz-selection {
+      background-color: var(--selection-bg);
+      color: var(--selection-text);
+    }
+
+    [id]:not([class*="scroll-mt"]) {
+      scroll-margin-top: var(--space-20);
+    }
+
+    /* ===== 页头 ===== */
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--space-12) 0;
+    }
+
+    @media (min-width: 48rem) {
+      header {
+        padding: var(--space-16) 0;
+      }
+    }
+
+    .logo {
+      position: relative;
+      display: block;
+    }
+
+    .logo img {
+      display: block;
+      transition: opacity var(--dur-base) var(--ease);
+    }
+
+    /* 单色覆盖层：颜色精确等于 var(--link-hover) */
+    .logo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: var(--link-hover);
+      -webkit-mask: url("/leukeen.svg") no-repeat center / contain;
+      mask: url("/leukeen.svg") no-repeat center / contain;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--dur-base) var(--ease);
+    }
+
+    .logo:hover img,
+    .logo:focus-visible img {
+      opacity: 0;
+    }
+
+    .logo:hover::after,
+    .logo:focus-visible::after {
+      opacity: 1;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .logo img {
+        filter: invert(1);
+      }
+    }
+
+    /* ===== 正文 ===== */
+    main {
+      width: 90%;
+      max-width: var(--content-w);
+      margin: 0 auto;
+      padding-bottom: var(--space-12);
+    }
+
+    h1,
+    h2 {
+      margin: 0 0 var(--space-2);
+      font-size: var(--fs-lg);
+      line-height: var(--lh-tight);
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-top: var(--space-5);
+    }
+
+    h1:first-child {
+      margin-top: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+    p + p {
+      margin-top: var(--space-3);
+    }
+    
+    code {
+      display: inline;
+      padding: 2px var(--space-1);
+      border: 1px solid var(--code-border);
+      border-radius: var(--radius-sm);
+      background: var(--code-bg);
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        "Liberation Mono",
+        "Courier New",
+        monospace;
+      font-size: calc(var(--fs-base) - 0.0625rem);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+      transition:
+        color var(--dur-fast) var(--ease),
+        background-color var(--dur-fast) var(--ease),
+        border-color var(--dur-fast) var(--ease);
+    }
+
+    a:hover {
+      color: var(--link-hover);
+    }
+
+    /* ===== 按钮前留白与分隔 ===== */
+    .action {
+      margin-top: var(--space-12);
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--divider);
+    }
+
+    /* ===== 大圆角按钮 ===== */
+    .button {
+      --sweep: var(--sweep-from);
+
+      position: relative;
+      display: block;
+      overflow: hidden;
+      width: 100%;
+      border-radius: var(--radius-md);
+      background: linear-gradient(
+        90deg,
+        var(--sweep-bg) 0%,
+        var(--sweep-bg) calc(var(--sweep) - var(--sweep-edge)),
+        var(--btn-bg) var(--sweep),
+        var(--btn-bg) 100%
+      );
+      color: var(--btn-text);
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        --sweep var(--dur-sweep) var(--ease),
+        transform var(--dur-fast) var(--ease);
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      --sweep: var(--sweep-to);
+    }
+
+    .button:active {
+      transform: scale(0.985);
+    }
+
+    .button:focus-visible {
+      outline: 2px solid var(--link-hover);
+      outline-offset: 2px;
+    }
+
+    .button__text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--btn-gap);
+      padding: var(--btn-pad-y) 0;
+    }
+
+    /* 主标题：同样的渐变坐标，同步推进 */
+    .button__title {
+      display: block;
+      padding: 0 calc(var(--btn-arrow-w) + var(--space-2)) 0 var(--btn-pad-x);
+      font-size: var(--fs-base);
+      font-weight: 500;
+      line-height: var(--lh-tight);
+      background: linear-gradient(
+        90deg,
+        var(--sweep-text) 0%,
+        var(--sweep-text) calc(var(--sweep) - var(--sweep-edge)),
+        var(--btn-text) var(--sweep),
+        var(--btn-text) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .button__sub {
+      display: block;
+      padding: 0 calc(var(--btn-arrow-w) + var(--space-2)) 0 var(--btn-pad-x);
+      font-size: var(--fs-sm);
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--btn-sub-text);
+      transition: color var(--dur-sweep) var(--ease);
+    }
+
+    .button:hover .button__sub,
+    .button:focus-visible .button__sub {
+      color: var(--sweep-sub-text);
+    }
+
+    .button__arrow {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: var(--btn-arrow-w);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--btn-text);
+      pointer-events: none;
+      transition: color var(--dur-sweep) var(--ease);
+    }
+
+    .button:hover .button__arrow,
+    .button:focus-visible .button__arrow {
+      color: var(--sweep-text);
+    }
+
+    .button__arrow svg {
+      display: block;
+      width: calc(var(--fs-base) * 2);
+      height: calc(var(--fs-base) * 2);
+      fill: currentColor;
+      transition: transform calc(var(--dur-sweep) * 0.8) var(--ease);
+    }
+
+    .button:hover .button__arrow svg,
+    .button:focus-visible .button__arrow svg {
+      transform: rotate(-45deg);
+    }
+
+    /* ===== 小屏幕：贴底抽屉 ===== */
+    @media (max-width: 47.9375rem) {
+      main {
+        padding-bottom: calc(var(--space-20) + var(--space-6));
+      }
+
+      .action {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        border-top: 0;
+        transform: none;
+        z-index: 10;
+      }
+
+      .button {
+        --btn-pad-x: calc(var(--space-5) + var(--space-4));
+        --btn-pad-y: var(--space-4);
+        --btn-arrow-w: calc(3.75rem + var(--space-4));
+
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        box-shadow:
+          0 -1px 0 hsl(0 0% 0% / 0.06),
+          0 -4px 12px hsl(0 0% 0% / 0.10),
+          0 -12px 32px hsl(0 0% 0% / 0.08);
+      }
+
+      .button__arrow {
+        right: var(--space-4);
+        width: 3.75rem;
+      }
+
+      .button:active {
+        transform: none;
+        filter: brightness(0.94);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="logo" href="https://www.leukeen.com/" aria-label="leukeen">
+      <img src="/leukeen.svg" alt="leukeen" width="130" height="44">
+    </a>
+  </header>
+
+  <main>
+    <h1>什么是 s4.pw？</h1>
+    <p>
+      <code>s4.pw</code> 是 <a href="https://www.leukeen.com/">凌昉事业部</a> 持有的 ICANN 在册域名。在默认情况下，
+      <code>.s4.pw</code> 上的所有内容都是本组织的项目；不过，有时也会将子域名分发给其他互联网主体。
+    </p>
+    <p>已经安全了，放轻松，这里是虚拟作品之外，您的世界！</p>
+
+    <h2>有问题？</h2>
+    <p>
+      请发送邮件至<a href="mailto:leukeen@foxmail.com">leukeen@foxmail.com</a>，举报违反我们<a href="https://wiki.leukeen.com/%E6%99%BD%E6%96%B9%E6%89%8B%E5%86%8C_Wiki:%E6%9D%A1%E4%BE%8B">《政策方针》</a>的不当内容。请尽可能详细地说明涉事域名和内容。
+    </p>
+
+    <div class="action">
+      <a class="button" href="https://www.s4.pw/">
+        <span class="button__text">
+          <span class="button__title">前往首页</span>
+          <span class="button__sub">www.s4.pw</span>
+        </span>
+        <span class="button__arrow" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 566.93 467.72"><polygon points="354.33 0 566.93 233.86 354.33 467.72 212.6 467.72 354.33 292.32 0 292.32 0 175.39 354.33 175.39 212.6 0 354.33 0"/></svg>
+        </span>
+      </a>
+    </div>
+  </main>
+</body>
+</html>
